@@ -1,0 +1,4 @@
+rootProject.name = 'poc'
+include 'contract'
+include 'impl'
+
