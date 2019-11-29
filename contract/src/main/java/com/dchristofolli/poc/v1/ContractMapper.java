@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ContractMapper {
-    public static CrudModel mapRequestToModel(RequestModel model){
+class ContractMapper {
+    static CrudModel mapRequestToModel(RequestModel model){
         return CrudModel.builder()
                 .name(model.getName())
                 .email(model.getEmail())
@@ -19,7 +19,7 @@ public class ContractMapper {
                 .build();
     }
 
-    public static ResponseModel mapModelToResponse(CrudModel model){
+    static ResponseModel mapModelToResponse(CrudModel model){
         return ResponseModel.builder()
                 .id(model.getId())
                 .name(model.getName())

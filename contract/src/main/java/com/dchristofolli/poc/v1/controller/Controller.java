@@ -2,6 +2,8 @@ package com.dchristofolli.poc.v1.controller;
 
 import com.dchristofolli.poc.v1.ContractFacade;
 import com.dchristofolli.poc.v1.exception.ApiException;
+import com.dchristofolli.poc.v1.model.CrudModel;
+import com.dchristofolli.poc.v1.model.CrudModelList;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import io.swagger.annotations.Api;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -46,6 +49,18 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Displays a list containing basic data for all users.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "List displayed successfully"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @GetMapping("/")
+    public List<CrudModel> showAllUsers(){
+        return facade.showAllUsers();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Update user data")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated"),
@@ -57,6 +72,14 @@ public class Controller {
         return facade.update(id, user);
     }
 
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "User deleted"),
+            @ApiResponse(code = 404, message = "User not found"),
+            @ApiResponse(code = 500, message = "Bad server")})
+    @DeleteMapping("{id}")
+    public void deleteUserById(@PathVariable String id){
+        facade.delete(id);
+    }
 }
 
