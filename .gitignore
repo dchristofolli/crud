@@ -31,3 +31,11 @@ out/
 
 ### VS Code ###
 .vscode/
+contract/src/main/java/com/dchristofolli/poc/v1/mapper/
+contract/src/main/resources/
+contract/src/test/
+impl/src/main/resources/
+impl/src/test/
+src/main/resources/static/
+src/main/resources/templates/
+src/test/resources/

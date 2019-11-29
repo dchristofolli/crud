@@ -3,6 +3,7 @@ package com.dchristofolli.poc.v1.controller;
 import com.dchristofolli.poc.v1.ContractFacade;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
+@Api("Users Crud")
 @RequestMapping(path = "/crud/v1/users")
 public class Controller {
     private ContractFacade facade;

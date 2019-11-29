@@ -16,14 +16,14 @@ public class SwaggerConfig {
     public Docket poc() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.dchristofolli.crud.v1"))
+                .apis(RequestHandlerSelectors.basePackage("com.dchristofolli.poc.v1"))
                 .build()
                 .apiInfo(metadata());
     }
 
     private ApiInfo metadata() {
         return new ApiInfoBuilder().title("POC Crud")
-                .description("Documentação POC Crud")
+                .description("POC Crud documentation")
                 .version("1.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
