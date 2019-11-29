@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.controller;
 
 import com.dchristofolli.poc.v1.ContractFacade;
+import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import io.swagger.annotations.Api;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
@@ -26,8 +29,34 @@ public class Controller {
             @ApiResponse(code = 500, message = "An error occurred on the server")
     })
     @PostMapping
-    public ResponseModel createUser(@RequestBody RequestModel model){
+    public ResponseModel createUser(@Valid @RequestBody RequestModel model) {
         return facade.createUser(model);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Displays a user's basic information")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User found"),
+            @ApiResponse(code = 404, message = "User not found. Try again", response = ApiException.class),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @GetMapping("/{id}")
+    public ResponseModel showUserById(@PathVariable(value = "id") String id) {
+        return facade.showUserById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Update user data")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User updated"),
+            @ApiResponse(code = 404, message = "Invalid data"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @PatchMapping("/{id}")
+    public ResponseModel updateUser(@RequestBody RequestModel user, @PathVariable String id){
+        return facade.update(id, user);
+    }
+
+
 }
 

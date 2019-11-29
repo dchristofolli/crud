@@ -19,4 +19,12 @@ public class ContractFacade {
     public ResponseModel createUser(RequestModel model) {
         return mapModelToResponse(service.create(mapRequestToModel(model)));
     }
+
+    public ResponseModel showUserById(String id) {
+        return mapModelToResponse(service.showUserById(id));
+    }
+
+    public ResponseModel update(String id, RequestModel user) {
+        return mapModelToResponse(service.update(id, mapRequestToModel(user)));
+    }
 }
