@@ -3,7 +3,6 @@ package com.dchristofolli.poc.v1.controller;
 import com.dchristofolli.poc.v1.ContractFacade;
 import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.model.CrudModel;
-import com.dchristofolli.poc.v1.model.CrudModelList;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import io.swagger.annotations.Api;
@@ -56,7 +55,7 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/")
-    public List<CrudModel> showAllUsers(){
+    public List<CrudModel> showAllUsers() {
         return facade.showAllUsers();
     }
 
@@ -68,7 +67,7 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @PatchMapping("/{id}")
-    public ResponseModel updateUser(@RequestBody RequestModel user, @PathVariable String id){
+    public ResponseModel updateUser(@RequestBody RequestModel user, @PathVariable String id) {
         return facade.update(id, user);
     }
 
@@ -78,7 +77,7 @@ public class Controller {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Bad server")})
     @DeleteMapping("{id}")
-    public void deleteUserById(@PathVariable String id){
+    public void deleteUserById(@PathVariable String id) {
         facade.delete(id);
     }
 }
