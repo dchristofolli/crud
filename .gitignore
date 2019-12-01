@@ -21,6 +21,7 @@ mongo-data/
 *.iml
 *.ipr
 out/
+postgres-data/
 
 ### NetBeans ###
 /nbproject/private/
