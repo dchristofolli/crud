@@ -1,7 +1,6 @@
 package com.dchristofolli.poc.v1;
 
 import com.dchristofolli.poc.v1.model.CrudModel;
-import com.dchristofolli.poc.v1.model.CrudModelList;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import com.dchristofolli.poc.v1.service.CrudService;
