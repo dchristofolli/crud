@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.mapper;
 
 import com.dchristofolli.poc.v1.model.CrudModel;
+import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.repository.CrudEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,6 +24,12 @@ public class ImplMapper {
                 .cpf(model.getCpf())
                 .email(model.getEmail())
                 .password(model.getPassword())
+                .build();
+    }
+
+    public static ImplResponseModel mapEntityToResponse(CrudEntity entity){
+        return ImplResponseModel.builder()
+                .name(entity.getName())
                 .build();
     }
 }

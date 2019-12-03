@@ -3,6 +3,7 @@ package com.dchristofolli.poc.v1.service;
 import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.mapper.ImplMapper;
 import com.dchristofolli.poc.v1.model.CrudModel;
+import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.repository.CrudEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -40,11 +41,11 @@ public class CrudService {
         return mapEntityToModel(repository.save(usr.get()));
     }
 
-    public List<CrudModel> showAllUsers() {
-        List<CrudModel> users = repository
+    public List<ImplResponseModel> showAllUsers() {
+        List<ImplResponseModel> users = repository
                 .findAll()
                 .stream()
-                .map(ImplMapper::mapEntityToModel)
+                .map(ImplMapper::mapEntityToResponse)
                 .collect(Collectors.toList());
         if (users.isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
         return users;

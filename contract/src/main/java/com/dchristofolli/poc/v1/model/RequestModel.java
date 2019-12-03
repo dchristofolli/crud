@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class RequestModel {
-    //todo verificar o properties
     @Size(min = 3, message = "{nameMinSize}")
     private String name;
 

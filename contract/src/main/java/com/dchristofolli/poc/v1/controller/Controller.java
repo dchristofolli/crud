@@ -1,8 +1,7 @@
 package com.dchristofolli.poc.v1.controller;
 
 import com.dchristofolli.poc.v1.ContractFacade;
-import com.dchristofolli.poc.v1.exception.ApiException;
-import com.dchristofolli.poc.v1.model.CrudModel;
+import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import io.swagger.annotations.Api;
@@ -39,7 +38,7 @@ public class Controller {
     @ApiOperation("Displays a user's basic information")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
-            @ApiResponse(code = 404, message = "User not found. Try again", response = ApiException.class),
+            @ApiResponse(code = 404, message = "User not found. Try again"),
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/{id}")
@@ -48,14 +47,14 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Displays a list containing basic data for all users.")
+    @ApiOperation("Displays a list containing the names for all users.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "List displayed successfully"),
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/")
-    public List<CrudModel> showAllUsers() {
+    public List<ImplResponseModel> showAllUsers() {
         return facade.showAllUsers();
     }
 

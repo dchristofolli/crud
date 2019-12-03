@@ -1,6 +1,5 @@
 plugins {
     id 'org.springframework.boot' version '2.2.1.RELEASE'
-    id "org.sonarqube" version "2.7"
     id 'java'
 }
 
@@ -14,8 +13,6 @@ dependencies {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.sonarqube'
-    apply plugin: 'jacoco'
 
     group = 'com.dchristofolli'
     version = '1.0'
