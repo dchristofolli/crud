@@ -1,5 +1,6 @@
 package com.dchristofolli.poc.v1.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +16,23 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class RequestModel {
+    @ApiModelProperty(notes = "User name", required = true)
+    @NotBlank(message = "{requiredField}")
     @Size(min = 3, max = 16, message = "{nameMinSize}")
     private String name;
 
+    @ApiModelProperty(notes = "User social security number", required = true)
+    @NotBlank(message = "{requiredField}")
     @CPF(message = "{invalidCpf}")
     private String cpf;
 
+    @ApiModelProperty(notes = "User e-mail address", required = true)
     @NotBlank(message = "{emailNotBlank}")
     @Email(message = "{invalidEmail}")
     private String email;
 
+    @ApiModelProperty(notes = "User account password", required = true)
+    @NotBlank(message = "{requiredField}")
     @Size(min = 4, max = 12, message = "{invalidPass}")
     private String password;
 }

@@ -73,6 +73,7 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Delete a user")
     @ApiResponses({
             @ApiResponse(code = 204, message = "User deleted"),
             @ApiResponse(code = 404, message = "User not found"),

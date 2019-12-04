@@ -1,7 +1,6 @@
 package com.dchristofolli.poc.v1.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,16 +25,20 @@ public class Handler {
     }
 
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<String> handleApiException(ApiException apiException) {
-        return new ResponseEntity<>(apiException.getMessage(), apiException.getStatus());
+    public Map<String, HttpStatus> handleApiException(ApiException apiException) {
+        Map<String, HttpStatus> errors = new HashMap<>();
+        errors.put(apiException.getMessage(), apiException.getStatus());
+        return errors;
     }
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorModel> handleException(Exception e) {
-        return new ResponseEntity<>(ErrorModel.builder()
+    public Map<ErrorModel, HttpStatus> handleException(Exception e) {
+        Map<ErrorModel, HttpStatus> errors = new HashMap<>();
+        ErrorModel error = ErrorModel.builder()
                 .message("Unexpected Error")
                 .error(e.getClass().getName())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .build(),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+                .build();
+        errors.put(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return errors;
     }
 }
