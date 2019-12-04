@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class RequestModel {
-    @Size(min = 3, message = "{nameMinSize}")
+    @Size(min = 3, max = 16, message = "{nameMinSize}")
     private String name;
 
     @CPF(message = "{invalidCpf}")
@@ -25,6 +25,6 @@ public class RequestModel {
     @Email(message = "{invalidEmail}")
     private String email;
 
-    @Size(min = 4, message = "{invalidPass}")
+    @Size(min = 4, max = 12, message = "{invalidPass}")
     private String password;
 }

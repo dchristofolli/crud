@@ -1,12 +1,5 @@
 version: "3"
 services:
-  crud:
-    container_name: "crud_poc"
-    image: dchristofolli/crud
-    ports: 
-      - '8080:8080'
-    depends_on: 
-      - mongo
   mongo:
     container_name: "crud-mongo"
     image: mongo

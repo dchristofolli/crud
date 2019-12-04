@@ -20,13 +20,8 @@ public class ContractFacade {
     public ResponseModel createUser(RequestModel model) {
         return mapModelToResponse(service.create(mapRequestToModel(model)));
     }
-
     public ResponseModel showUserById(String id) {
         return mapModelToResponse(service.showUserById(id));
-    }
-
-    public ResponseModel update(String id, RequestModel user) {
-        return mapModelToResponse(service.update(id, mapRequestToModel(user)));
     }
 
     public List<ImplResponseModel> showAllUsers() {
@@ -35,5 +30,9 @@ public class ContractFacade {
 
     public void delete(String id) {
         service.delete(id);
+    }
+
+    public ResponseModel updatePassword(String id, String oldPass, String newPass) {
+        return mapModelToResponse(service.updatePassword(id, oldPass, newPass));
     }
 }

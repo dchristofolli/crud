@@ -59,15 +59,17 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Update user data")
+    @ApiOperation("Update user password")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated"),
             @ApiResponse(code = 404, message = "Invalid data"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @PatchMapping("/{id}")
-    public ResponseModel updateUser(@RequestBody RequestModel user, @PathVariable String id) {
-        return facade.update(id, user);
+    @PatchMapping("/{id}/password")
+    public ResponseModel updatePassword(@RequestParam String oldPass,
+                                        @RequestParam String newPass,
+                                        @PathVariable String id) {
+        return facade.updatePassword(id, oldPass, newPass);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -22,23 +22,14 @@ import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapModelToEntity;
 @Service
 public class CrudService {
     private UserRepository repository;
-    private ServiceUtils serviceUtils;
 
     public CrudModel create(CrudModel user) {
-
         return mapEntityToModel(repository.save(mapModelToEntity(user)));
     }
 
     public CrudModel showUserById(String id) {
         return mapEntityToModel(repository.findById(id)
                 .orElseThrow(() -> new ApiException("User not exists", HttpStatus.NOT_FOUND)));
-    }
-
-    public CrudModel update(String id, CrudModel user) {
-        Optional<CrudEntity> usr = serviceUtils.updateUser(id, user);
-        if (usr.isEmpty())
-            throw new ApiException("User not found", HttpStatus.NOT_FOUND);
-        return mapEntityToModel(repository.save(usr.get()));
     }
 
     public List<ImplResponseModel> showAllUsers() {
@@ -51,11 +42,27 @@ public class CrudService {
         return users;
     }
 
-
     public void delete(String id) {
         if (!repository.existsById(id))
             throw new ApiException("User not found", HttpStatus.NOT_FOUND);
         repository.deleteById(id);
+    }
+
+    public CrudModel updatePassword(String id, String oldPass, String newPass) {
+        if(!passwordMatch(id, oldPass)){
+            throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
+        }
+        else {
+            Optional<CrudEntity> entity = repository.findById(id);
+            entity.get().setId(id);
+            entity.get().setPassword(newPass);
+            return mapEntityToModel(repository.save(entity.get()));
+        }
+    }
+
+    private boolean passwordMatch(String id, String oldPass) {
+        Optional<CrudEntity> entity = repository.findById(id);
+        return entity.isPresent() && entity.get().getPassword().equals(oldPass);
     }
 
 }
