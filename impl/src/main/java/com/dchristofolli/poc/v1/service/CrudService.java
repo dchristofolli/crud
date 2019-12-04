@@ -57,4 +57,5 @@ public class CrudService {
             throw new ApiException("User not found", HttpStatus.NOT_FOUND);
         repository.deleteById(id);
     }
+
 }
