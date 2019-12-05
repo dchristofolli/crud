@@ -35,4 +35,12 @@ public class ContractFacade {
     public ResponseModel updatePassword(String id, String oldPass, String newPass) {
         return mapModelToResponse(service.updatePassword(id, oldPass, newPass));
     }
+
+    public ResponseModel findUserByCpf(String cpf) {
+        return mapModelToResponse(service.findUserByCpf(cpf));
+    }
+
+    public ResponseModel findUserByName(String name) {
+        return mapModelToResponse(service.findUserByName(name));
+    }
 }

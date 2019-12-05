@@ -1,7 +1,5 @@
-package com.dchristofolli.poc.v1.controller;
+package com.dchristofolli.poc.v1;
 
-import com.dchristofolli.poc.v1.ContractFacade;
-import com.dchristofolli.poc.v1.model.CrudModel;
 import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
@@ -10,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +40,7 @@ public class Controller {
             @ApiResponse(code = 404, message = "User not found. Try again"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseModel showUserById(@PathVariable(value = "id") String id) {
         return facade.showUserById(id);
     }
@@ -76,9 +73,26 @@ public class Controller {
 
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by CPF")
-    @GetMapping("/{cpf}")
-    public ResponseModel findUserByCpf(@PathVariable String cpf){
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User found"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @GetMapping("/cpf/{cpf}")
+    public ResponseModel findUserByCpf(@PathVariable String cpf) {
         return facade.findUserByCpf(cpf);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Find a user by name")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User found"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @GetMapping("/username/{username}")
+    public ResponseModel findUserByName(@PathVariable String username) {
+        return facade.findUserByName(username);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,10 +50,9 @@ public class CrudService {
     }
 
     public CrudModel updatePassword(String id, String oldPass, String newPass) {
-        if(!passwordMatch(id, oldPass)){
+        if (!passwordMatch(id, oldPass)) {
             throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
-        }
-        else {
+        } else {
             Optional<CrudEntity> entity = repository.findById(id);
             entity.get().setId(id);
             entity.get().setPassword(newPass);
@@ -65,4 +65,11 @@ public class CrudService {
         return entity.isPresent() && entity.get().getPassword().equals(oldPass);
     }
 
+    public CrudModel findUserByCpf(String cpf) {
+        return mapEntityToModel(repository.findByCpf(cpf));
+    }
+
+    public CrudModel findUserByName(String name) {
+        CrudModel user = mapEntityToModel(repository.findByName(name);
+    }
 }

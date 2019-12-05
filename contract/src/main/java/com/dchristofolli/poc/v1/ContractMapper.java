@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 class ContractMapper {
     static CrudModel mapRequestToModel(RequestModel model) {
         return CrudModel.builder()
-                .name(model.getName())
+                .name(model.getName().toLowerCase())
                 .email(model.getEmail())
                 .cpf(model.getCpf())
                 .password(model.getPassword())
@@ -22,7 +22,7 @@ class ContractMapper {
     static ResponseModel mapModelToResponse(CrudModel model) {
         return ResponseModel.builder()
                 .id(model.getId())
-                .name(model.getName())
+                .name(model.getName().toLowerCase())
                 .build();
     }
 }
