@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.controller;
 
 import com.dchristofolli.poc.v1.ContractFacade;
+import com.dchristofolli.poc.v1.model.CrudModel;
 import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,6 +72,13 @@ public class Controller {
                                         @RequestParam String newPass,
                                         @PathVariable String id) {
         return facade.updatePassword(id, oldPass, newPass);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Find a user by CPF")
+    @GetMapping("/{cpf}")
+    public ResponseModel findUserByCpf(@PathVariable String cpf){
+        return facade.findUserByCpf(cpf);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
