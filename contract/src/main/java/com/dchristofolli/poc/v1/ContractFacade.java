@@ -1,13 +1,12 @@
 package com.dchristofolli.poc.v1;
 
-import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
-import com.dchristofolli.poc.v1.service.CrudService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.dchristofolli.poc.v1.ContractMapper.mapModelToResponse;
 import static com.dchristofolli.poc.v1.ContractMapper.mapRequestToModel;
@@ -15,32 +14,34 @@ import static com.dchristofolli.poc.v1.ContractMapper.mapRequestToModel;
 @AllArgsConstructor
 @Component
 public class ContractFacade {
-    private CrudService service;
+    private ImplFacade facade;
 
-    public ResponseModel createUser(RequestModel model) {
-        return mapModelToResponse(service.create(mapRequestToModel(model)));
+    public ResponseModel createUser(RequestModel requestModel) {
+        return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
     }
     public ResponseModel showUserById(String id) {
-        return mapModelToResponse(service.showUserById(id));
+        return mapModelToResponse(facade.showUserById(id));
     }
 
-    public List<ImplResponseModel> showAllUsers() {
-        return service.showAllUsers();
+    public List<ResponseModel> showAllUsers() {
+        return facade.showAllUsers().stream()
+                .map(ContractMapper::mapModelToResponse)
+                .collect(Collectors.toList());
     }
 
     public void delete(String id) {
-        service.delete(id);
+        facade.delete(id);
     }
 
     public ResponseModel updatePassword(String id, String oldPass, String newPass) {
-        return mapModelToResponse(service.updatePassword(id, oldPass, newPass));
+        return mapModelToResponse(facade.updatePassword(id, oldPass, newPass));
     }
 
     public ResponseModel findUserByCpf(String cpf) {
-        return mapModelToResponse(service.findUserByCpf(cpf));
+        return mapModelToResponse(facade.findUserByCpf(cpf));
     }
 
     public ResponseModel findUserByName(String name) {
-        return mapModelToResponse(service.findUserByName(name));
+        return mapModelToResponse(facade.findUserByName(name));
     }
 }

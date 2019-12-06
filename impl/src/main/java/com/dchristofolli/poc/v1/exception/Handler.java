@@ -1,15 +1,10 @@
 package com.dchristofolli.poc.v1.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 //todo revisar os tipos de retorno dos métodos
@@ -17,29 +12,31 @@ public class Handler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
+    public ErrorModel handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ErrorModel.builder()
+                .message("Invalid data")
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ApiException.class)
-    public ResponseEntity<String> handleApiException(ApiException apiException) {
-        return new ResponseEntity<>(apiException.getMessage(), apiException.getStatus());
+    public ErrorModel handleApiException(ApiException e) {
+        return ErrorModel.builder()
+                .message(e.getMessage())
+                .error(e.getClass().getName())
+                .status(e.getStatus())
+                .build();
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorModel> handleException(Exception e) {
-        return new ResponseEntity<>(ErrorModel.builder()
+    public ErrorModel handleException(Exception e) {
+        return ErrorModel.builder()
                 .message("Unexpected Error")
                 .error(e.getClass().getName())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .build(),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+                .build();
     }
 
 }

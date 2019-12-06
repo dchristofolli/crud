@@ -1,6 +1,5 @@
 package com.dchristofolli.poc.v1.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ImplResponseModel {
+public class UserModel {
+    private String id;
     private String name;
+    private String cpf;
+    private String email;
+    private String password;
 }

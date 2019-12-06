@@ -1,6 +1,5 @@
 package com.dchristofolli.poc.v1;
 
-import com.dchristofolli.poc.v1.model.ImplResponseModel;
 import com.dchristofolli.poc.v1.model.RequestModel;
 import com.dchristofolli.poc.v1.model.ResponseModel;
 import io.swagger.annotations.Api;
@@ -54,7 +53,7 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/")
-    public List<ImplResponseModel> showAllUsers() {
+    public List<ResponseModel> showAllUsers() {
         return facade.showAllUsers();
     }
 
