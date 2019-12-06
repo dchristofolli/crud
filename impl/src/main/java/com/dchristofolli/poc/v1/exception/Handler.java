@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+//todo revisar os tipos de retorno dos métodos
 public class Handler {
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleBadRequestExceptions(MethodArgumentNotValidException ex){
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
@@ -25,20 +28,18 @@ public class Handler {
     }
 
     @ExceptionHandler(ApiException.class)
-    public Map<String, HttpStatus> handleApiException(ApiException apiException) {
-        Map<String, HttpStatus> errors = new HashMap<>();
-        errors.put(apiException.getMessage(), apiException.getStatus());
-        return errors;
+    public ResponseEntity<String> handleApiException(ApiException apiException) {
+        return new ResponseEntity<>(apiException.getMessage(), apiException.getStatus());
     }
+
     @ExceptionHandler(Exception.class)
-    public Map<ErrorModel, HttpStatus> handleException(Exception e) {
-        Map<ErrorModel, HttpStatus> errors = new HashMap<>();
-        ErrorModel error = ErrorModel.builder()
+    public ResponseEntity<ErrorModel> handleException(Exception e) {
+        return new ResponseEntity<>(ErrorModel.builder()
                 .message("Unexpected Error")
                 .error(e.getClass().getName())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .build();
-        errors.put(error, HttpStatus.INTERNAL_SERVER_ERROR);
-        return errors;
+                .build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

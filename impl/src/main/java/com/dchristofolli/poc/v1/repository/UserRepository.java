@@ -6,8 +6,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends MongoRepository<CrudEntity, String> {
-    CrudEntity findByCpf(String cpf);
-    Optional<CrudEntity> findByName(String name);
-    CrudEntity findByEmail(String email);
+public interface UserRepository extends MongoRepository<UserEntity, String> {
+
+    Optional<UserEntity> findById(String id);
+
+    Optional<UserEntity> findByCpf(String cpf);
+
+    Optional<UserEntity> findByName(String name);
+
+    boolean existsByCpfOrEmailOrName(String cpf, String email, String name);
 }

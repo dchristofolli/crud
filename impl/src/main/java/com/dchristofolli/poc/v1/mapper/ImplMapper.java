@@ -2,7 +2,7 @@ package com.dchristofolli.poc.v1.mapper;
 
 import com.dchristofolli.poc.v1.model.CrudModel;
 import com.dchristofolli.poc.v1.model.ImplResponseModel;
-import com.dchristofolli.poc.v1.repository.CrudEntity;
+import com.dchristofolli.poc.v1.repository.UserEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImplMapper {
-    public static CrudModel mapEntityToModel(CrudEntity entity) {
+    public static CrudModel mapEntityToModel(UserEntity entity) {
         return CrudModel.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .build();
     }
 
-    public static CrudEntity mapModelToEntity(CrudModel model) {
-        return CrudEntity.builder()
+    public static UserEntity mapModelToEntity(CrudModel model) {
+        return UserEntity.builder()
                 .id(model.getId())
                 .name(model.getName())
                 .cpf(model.getCpf())
@@ -27,7 +27,7 @@ public class ImplMapper {
                 .build();
     }
 
-    public static ImplResponseModel mapEntityToResponse(CrudEntity entity){
+    public static ImplResponseModel mapEntityToResponse(UserEntity entity){
         return ImplResponseModel.builder()
                 .name(entity.getName())
                 .build();

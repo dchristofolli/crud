@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CrudEntity {
+public class UserEntity {
     private String id;
     private String name;
     private String cpf;

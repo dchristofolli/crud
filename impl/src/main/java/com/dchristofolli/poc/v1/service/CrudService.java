@@ -4,13 +4,12 @@ import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.mapper.ImplMapper;
 import com.dchristofolli.poc.v1.model.CrudModel;
 import com.dchristofolli.poc.v1.model.ImplResponseModel;
-import com.dchristofolli.poc.v1.repository.CrudEntity;
+import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +24,8 @@ public class CrudService {
     private UserRepository repository;
 
     public CrudModel create(CrudModel user) {
+        if (repository.existsByCpfOrEmailOrName(user.getCpf(), user.getEmail(), user.getName()))
+            throw new ApiException("User already exists in database", HttpStatus.CONFLICT);
         return mapEntityToModel(repository.save(mapModelToEntity(user)));
     }
 
@@ -53,7 +54,7 @@ public class CrudService {
         if (!passwordMatch(id, oldPass)) {
             throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
         } else {
-            Optional<CrudEntity> entity = repository.findById(id);
+            Optional<UserEntity> entity = repository.findById(id);
             entity.get().setId(id);
             entity.get().setPassword(newPass);
             return mapEntityToModel(repository.save(entity.get()));
@@ -61,15 +62,17 @@ public class CrudService {
     }
 
     private boolean passwordMatch(String id, String oldPass) {
-        Optional<CrudEntity> entity = repository.findById(id);
+        Optional<UserEntity> entity = repository.findById(id);
         return entity.isPresent() && entity.get().getPassword().equals(oldPass);
     }
 
     public CrudModel findUserByCpf(String cpf) {
-        return mapEntityToModel(repository.findByCpf(cpf));
+        return mapEntityToModel(repository.findByCpf(cpf)
+                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND)));
     }
 
     public CrudModel findUserByName(String name) {
-        CrudModel user = mapEntityToModel(repository.findByName(name);
+        return mapEntityToModel(repository.findByName(name)
+                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND)));
     }
 }

@@ -25,7 +25,8 @@ public class Controller {
     @ApiOperation("Creates a new user")
     @ApiResponses({
             @ApiResponse(code = 201, message = "User successfully registered"),
-            @ApiResponse(code = 404, message = "Invalid data"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 409, message = "User already exists"),
             @ApiResponse(code = 500, message = "An error occurred on the server")
     })
     @PostMapping
