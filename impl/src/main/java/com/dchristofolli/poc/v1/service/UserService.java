@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +72,13 @@ public class UserService {
                 .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
     }
 
-    public boolean userExistsByName(String name){
+    public UserEntity findUserByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
+        return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name)
+                .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
+    }
+
+    public boolean userExistsByName(String name) {
         return repository.existsByName(name.toLowerCase());
     }
+
 }

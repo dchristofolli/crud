@@ -95,6 +95,21 @@ public class Controller {
         return facade.findUserByName(username);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Find a user by id, cpf, e-mail address or name")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "User found"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @GetMapping("/query")
+    public ResponseModel findByIdOrCpfOrEmailOrName(@RequestParam(required = false) String id,
+                                                    @RequestParam(required = false) String cpf,
+                                                    @RequestParam(required = false) String email,
+                                                    @RequestParam(required = false) String name){
+        return facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name);
+    }
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("Delete a user")
     @ApiResponses({

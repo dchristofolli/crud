@@ -53,4 +53,8 @@ public class ImplFacade {
         return mapEntityToModel(service.findUserByName(name));
     }
 
+    public UserModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name){
+        return mapEntityToModel(service.findUserByIdOrCpfOrEmailOrName(id, cpf, email, name));
+    }
+
 }

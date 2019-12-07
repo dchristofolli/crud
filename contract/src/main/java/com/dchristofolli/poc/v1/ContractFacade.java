@@ -46,4 +46,8 @@ public class ContractFacade {
         return mapModelToResponse(facade.findUserByName(name));
     }
 
+    public ResponseModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name){
+        return mapModelToResponse(facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name));
+    }
+
 }

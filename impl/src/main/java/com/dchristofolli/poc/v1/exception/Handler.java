@@ -12,6 +12,7 @@ public class Handler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorModel handleValidationExceptions(MethodArgumentNotValidException e) {
+        //todo criar parâmetro map para retornar todos os erros
         return ErrorModel.builder()
                 .error(e.getClass().getName())
                 .message("Invalid data")
