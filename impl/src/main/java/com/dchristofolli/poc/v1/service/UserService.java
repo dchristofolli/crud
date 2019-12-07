@@ -47,13 +47,18 @@ public class UserService {
     }
 
     public UserEntity updatePassword(String name, String oldPass, String newPass) {
-        if (!passwordMatch(name, oldPass)) {
-            throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
+        //todo desacoplar
+        if (passwordMatch(name, oldPass)) {
+            throw new ApiException("The new password cannot be the same as the old one", HttpStatus.BAD_REQUEST);
         } else {
             Optional<UserEntity> entity = repository.findByName(name);
-            entity.get().setName(name);
-            entity.get().setPassword(newPass);
-            return repository.save(entity.get());
+            if (entity.isPresent()) {
+                entity.get().setName(name);
+                entity.get().setPassword(newPass);
+                return repository.save(entity.orElseThrow(() -> new ApiException("Not found", HttpStatus.NOT_FOUND)));
+            }
+            throw new ApiException("User not found", HttpStatus.NOT_FOUND);
+
         }
     }
 
