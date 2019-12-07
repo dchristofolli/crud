@@ -19,9 +19,9 @@ public class Handler {
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ApiException.class)
-    public ErrorModel handleApiException(ApiException e) {
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ConflictException.class)
+    public ErrorModel handleApiException(ConflictException e) {
         return ErrorModel.builder()
                 .message(e.getMessage())
                 .error(e.getClass().getName())
