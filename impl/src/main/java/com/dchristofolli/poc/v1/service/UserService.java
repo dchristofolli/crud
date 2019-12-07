@@ -24,7 +24,7 @@ public class UserService {
         return repository.save(mapModelToEntity(user));
     }
 
-    public void userValidator(UserModel user) {
+    public void registrationChecker(UserModel user) {
         if (repository.existsByCpfOrEmailOrName(user.getCpf(), user.getEmail(), user.getName()))
             throw new ConflictException("User already exists in database", HttpStatus.CONFLICT);
     }
@@ -46,23 +46,19 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserEntity updatePassword(String name, String oldPass, String newPass) {
-        //todo desacoplar
-        if (passwordMatch(name, oldPass)) {
-            throw new ApiException("The new password cannot be the same as the old one", HttpStatus.BAD_REQUEST);
-        } else {
-            Optional<UserEntity> entity = repository.findByName(name);
-            if (entity.isPresent()) {
-                entity.get().setName(name);
-                entity.get().setPassword(newPass);
-                return repository.save(entity.orElseThrow(() -> new ApiException("Not found", HttpStatus.NOT_FOUND)));
-            }
-            throw new ApiException("User not found", HttpStatus.NOT_FOUND);
-
+    public UserEntity updatePassword(String name, String newPass) {
+        Optional<UserEntity> entity = repository.findByName(name);
+        if (entity.isPresent()) {
+            entity.get().setName(name);
+            entity.get().setPassword(newPass);
+            return repository.save(entity.orElseThrow(() -> new ApiException("Not found", HttpStatus.NOT_FOUND)));
         }
+        throw new ApiException("User not found", HttpStatus.NOT_FOUND);
+
     }
 
-    private boolean passwordMatch(String name, String oldPass) {
+    public boolean passwordIsValid(String name, String oldPass) {
+        //todo testar
         Optional<UserEntity> entity = repository.findByName(name);
         return entity.isPresent() && entity.get().getPassword().equals(oldPass);
     }

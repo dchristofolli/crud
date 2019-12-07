@@ -61,6 +61,7 @@ public class Controller {
     @ApiOperation("Update user password")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated"),
+            @ApiResponse(code = 401, message = "Invalid credentials"),
             @ApiResponse(code = 404, message = "Invalid data"),
             @ApiResponse(code = 500, message = "Bad server")
     })

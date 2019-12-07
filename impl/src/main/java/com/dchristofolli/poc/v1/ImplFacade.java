@@ -20,7 +20,7 @@ public class ImplFacade {
     private UserService service;
 
     public UserModel createUser(UserModel model) {
-        service.userValidator(model);
+        service.registrationChecker(model);
         return mapEntityToModel(service.create(model));
     }
 
@@ -40,9 +40,9 @@ public class ImplFacade {
     }
 
     public UserModel updatePassword(String name, String oldPass, String newPass) {
-        if(!service.userExistsByName(name))
-            throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
-        return mapEntityToModel(service.updatePassword(name, oldPass, newPass));
+        if(!service.passwordIsValid(name, oldPass))
+            throw new ApiException("Invalid credentials", HttpStatus.UNAUTHORIZED);
+        return mapEntityToModel(service.updatePassword(name, newPass));
     }
 
     public UserModel findUserByCpf(String cpf) {
