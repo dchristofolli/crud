@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.service;
 
 import com.dchristofolli.poc.v1.exception.ApiException;
+import com.dchristofolli.poc.v1.exception.ConflictException;
 import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
@@ -25,7 +26,7 @@ public class UserService {
 
     public void userValidator(UserModel user) {
         if (repository.existsByCpfOrEmailOrName(user.getCpf(), user.getEmail(), user.getName()))
-            throw new ApiException("User already exists in database", HttpStatus.CONFLICT);
+            throw new ConflictException("User already exists in database", HttpStatus.CONFLICT);
     }
 
     public UserEntity showUserById(String id) {

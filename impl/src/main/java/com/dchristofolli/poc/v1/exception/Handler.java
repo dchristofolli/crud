@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-//todo revisar os tipos de retorno dos métodos
 public class Handler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorModel handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ErrorModel handleValidationExceptions(MethodArgumentNotValidException e) {
         return ErrorModel.builder()
+                .error(e.getClass().getName())
                 .message("Invalid data")
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
