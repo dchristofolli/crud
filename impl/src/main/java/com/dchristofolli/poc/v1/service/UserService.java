@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,19 +47,19 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserEntity updatePassword(String id, String oldPass, String newPass) {
-        if (!passwordMatch(id, oldPass)) {
+    public UserEntity updatePassword(String name, String oldPass, String newPass) {
+        if (!passwordMatch(name, oldPass)) {
             throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
         } else {
-            Optional<UserEntity> entity = repository.findById(id);
-            entity.get().setId(id);
+            Optional<UserEntity> entity = repository.findByName(name);
+            entity.get().setName(name);
             entity.get().setPassword(newPass);
             return repository.save(entity.get());
         }
     }
 
-    private boolean passwordMatch(String id, String oldPass) {
-        Optional<UserEntity> entity = repository.findById(id);
+    private boolean passwordMatch(String name, String oldPass) {
+        Optional<UserEntity> entity = repository.findByName(name);
         return entity.isPresent() && entity.get().getPassword().equals(oldPass);
     }
 
@@ -70,5 +71,9 @@ public class UserService {
     public UserEntity findUserByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
+    }
+
+    public boolean userExistsByName(String name){
+        return repository.existsByName(name.toLowerCase());
     }
 }

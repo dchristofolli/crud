@@ -34,7 +34,7 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Displays a user's basic information")
+    @ApiOperation("Find a user by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 404, message = "User not found. Try again"),
@@ -64,11 +64,11 @@ public class Controller {
             @ApiResponse(code = 404, message = "Invalid data"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @PatchMapping("/{id}/password")
+    @PatchMapping("/{name}/password")
     public ResponseModel updatePassword(@RequestParam String oldPass,
-                                        @RequestParam String newPass,
-                                        @PathVariable String id) {
-        return facade.updatePassword(id, oldPass, newPass);
+                                        @Valid @RequestParam String newPass,
+                                        @PathVariable String name) {
+        return facade.updatePassword(name, oldPass, newPass);
     }
 
     @ResponseStatus(HttpStatus.OK)

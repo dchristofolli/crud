@@ -1,9 +1,11 @@
 package com.dchristofolli.poc.v1;
 
+import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.mapper.ImplMapper;
 import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,8 +39,10 @@ public class ImplFacade {
         service.delete(id);
     }
 
-    public UserModel updatePassword(String id, String oldPass, String newPass) {
-        return mapEntityToModel(service.updatePassword(id, oldPass, newPass));
+    public UserModel updatePassword(String name, String oldPass, String newPass) {
+        if(!service.userExistsByName(name))
+            throw new ApiException("Bad request", HttpStatus.BAD_REQUEST);
+        return mapEntityToModel(service.updatePassword(name, oldPass, newPass));
     }
 
     public UserModel findUserByCpf(String cpf) {
@@ -48,4 +52,5 @@ public class ImplFacade {
     public UserModel findUserByName(String name) {
         return mapEntityToModel(service.findUserByName(name));
     }
+
 }

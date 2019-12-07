@@ -19,6 +19,7 @@ public class ContractFacade {
     public ResponseModel createUser(RequestModel requestModel) {
         return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
     }
+
     public ResponseModel showUserById(String id) {
         return mapModelToResponse(facade.showUserById(id));
     }
@@ -33,8 +34,8 @@ public class ContractFacade {
         facade.delete(id);
     }
 
-    public ResponseModel updatePassword(String id, String oldPass, String newPass) {
-        return mapModelToResponse(facade.updatePassword(id, oldPass, newPass));
+    public ResponseModel updatePassword(String name, String oldPass, String newPass) {
+        return mapModelToResponse(facade.updatePassword(name, oldPass, newPass));
     }
 
     public ResponseModel findUserByCpf(String cpf) {
@@ -44,4 +45,5 @@ public class ContractFacade {
     public ResponseModel findUserByName(String name) {
         return mapModelToResponse(facade.findUserByName(name));
     }
+
 }
