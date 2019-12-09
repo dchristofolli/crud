@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,10 +42,10 @@ public class UserService {
         if (repository.findAll().isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
     }
 
-    public void delete(String id) {
-        if (!repository.existsById(id))
-            throw new ApiException("User not found in database", HttpStatus.NOT_FOUND);
-        repository.deleteById(id);
+    public Optional<UserEntity> delete(String id) {
+        Optional<UserEntity> entity = repository.findById(id);
+        repository.delete(entity.orElseThrow(() -> new ApiException("User does not exists", HttpStatus.NOT_FOUND)));
+        return entity;
     }
 
     public UserEntity findUserByCpf(String cpf) {
@@ -64,20 +63,14 @@ public class UserService {
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 
-    public boolean userExistsByName(String name) {
-        //todo remover
-        System.out.println("USER EXISTS");
-        return repository.existsByName(name);
+    public boolean userDoesNotExistsByName(String name) {
+        return !repository.existsByName(name.toLowerCase());
     }
 
     public UserEntity updateUsername(String oldName, String newName) {
-        //todo remover
-        System.out.println("ENTRANDO NO UPDATE" + oldName + " " + newName);
         UserEntity entity = repository.findByName(oldName)
                 .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
-        System.out.println("NOT FOUND");
         entity.setName(newName);
-        System.out.println("FINALIZANDO UPDATE");
         return repository.save(entity);
     }
 }

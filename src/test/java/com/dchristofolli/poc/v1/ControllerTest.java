@@ -102,8 +102,10 @@ public class ControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void deleteUserById() {
-//
-//    }
+    @Test
+    public void deleteUserById() throws Exception {
+        UserEntity entity = UserStub.entityStubModel();
+        given(repository.save(entity)).willReturn(entity);
+        mockMvc.perform(delete("/crud/v1/users/1")).andExpect(status().isNotFound());
+    }
 }

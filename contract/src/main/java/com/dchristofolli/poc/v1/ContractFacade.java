@@ -30,8 +30,8 @@ public class ContractFacade {
                 .collect(Collectors.toList());
     }
 
-    public void delete(String id) {
-        facade.delete(id);
+    public ResponseModel delete(String id) {
+        return mapModelToResponse(facade.delete(id));
     }
 
 

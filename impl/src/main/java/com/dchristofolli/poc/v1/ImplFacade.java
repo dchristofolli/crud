@@ -36,8 +36,9 @@ public class ImplFacade {
                 .collect(Collectors.toList());
     }
 
-    public void delete(String id) {
-        service.delete(id);
+    public UserModel delete(String id) {
+        return mapEntityToModel(service.delete(id)
+                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND)));
     }
 
     public UserModel findUserByCpf(String cpf) {
@@ -53,7 +54,7 @@ public class ImplFacade {
     }
 
     public UserModel updateUserName(String oldName, String newName) {
-        if (!service.userExistsByName(oldName.toLowerCase()))
+        if (service.userDoesNotExistsByName(oldName.toLowerCase()))
             throw new ApiException("User does not exists", HttpStatus.NOT_FOUND);
         return mapEntityToModel(service.updateUsername(oldName, newName));
     }

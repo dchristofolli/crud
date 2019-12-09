@@ -1,7 +1,11 @@
 package com.dchristofolli.poc.v1.service;
 
 import com.dchristofolli.poc.v1.exception.ApiException;
+import com.dchristofolli.poc.v1.exception.ConflictException;
+import com.dchristofolli.poc.v1.model.UserModel;
+import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -9,7 +13,9 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
+import java.util.Optional;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -19,18 +25,17 @@ public class UserServiceTest {
     @InjectMocks
     UserService service;
 
-//    @Test
-//    void create() {
-//    }
-//
-//    @Test
-//    void registrationChecker() {
-//    }
-//
-//    @Test
-//    void showUserById() {
-//
-//    }
+    @Test(expected = ConflictException.class)
+    public void registrationChecker() {
+        when(repository.existsByCpfOrEmailOrName("55368778015", "stub@teste.com", "stubber"))
+                .thenReturn(true);
+        service.registrationChecker(UserModel.builder()
+                .name("stubber")
+                .email("stub@teste.com")
+                .cpf("55368778015")
+                .id("1")
+                .build());
+    }
 
     @Test(expected = ApiException.class)
     public void emptyListValidator_return_NotFound() {
@@ -39,34 +44,18 @@ public class UserServiceTest {
     }
 
     @Test
-    public void userExistsByName() {
+    public void userDoesNotExistsByName() {
+        when(repository.existsByName("joao")).thenReturn(false);
+        service.userDoesNotExistsByName("joao");
+        Assert.assertTrue(service.userDoesNotExistsByName("joao"));
     }
 
     @Test
-    public void updateUsername() {
+    public void delete() {
+        UserEntity entity = UserStub.entityStubModel();
+        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+        service.delete(entity.getId());
+        verify(repository).delete(entity);
     }
 
-//    @Test
-//    void delete() {
-//    }
-//
-//    @Test
-//    void updatePassword() {
-//    }
-//
-//    @Test
-//    void passwordIsValid() {
-//    }
-//
-//    @Test
-//    void findUserByCpf() {
-//    }
-//
-//    @Test
-//    void findUserByName() {
-//    }
-//
-//    @Test
-//    void findUserByIdOrCpfOrEmailOrName() {
-//    }
 }

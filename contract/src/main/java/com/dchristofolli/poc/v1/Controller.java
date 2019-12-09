@@ -103,8 +103,8 @@ public class Controller {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Bad server")})
     @DeleteMapping("{id}")
-    public void deleteUserById(@PathVariable String id) {
-        facade.delete(id);
+    public ResponseModel deleteUserById(@PathVariable String id) {
+        return facade.delete(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
