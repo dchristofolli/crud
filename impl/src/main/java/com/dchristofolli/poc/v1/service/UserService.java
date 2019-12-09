@@ -35,9 +35,11 @@ public class UserService {
     }
 
     public List<UserEntity> showAllUsers() {
-        List<UserEntity> users = repository.findAll();
-        if (users.isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
-        return users;
+        return repository.findAll();
+    }
+
+    public void emptyListValidator() {
+        if (repository.findAll().isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
     }
 
     public void delete(String id) {

@@ -29,6 +29,7 @@ public class ImplFacade {
     }
 
     public List<UserModel> showAllUsers() {
+        service.emptyListValidator();
         return service.showAllUsers()
                 .stream()
                 .map(ImplMapper::mapEntityToModel)
