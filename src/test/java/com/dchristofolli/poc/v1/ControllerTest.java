@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -44,9 +43,9 @@ public class ControllerTest {
     @Test
     public void createUser_Return_Created() throws Exception {
         given(repository.save(UserStub.entityStubRequest()))
-                .willReturn(UserStub.entityStubResponse());
+                .willReturn(UserStub.entityStubModel());
         mockMvc.perform(post("/crud/v1/users").contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(UserStub.entityStubResponse())))
+                .content(new ObjectMapper().writeValueAsString(UserStub.entityStubModel())))
                 .andExpect(status().isCreated());
     }
 
@@ -64,9 +63,13 @@ public class ControllerTest {
         mockMvc.perform(get("/crud/v1/users/")).andExpect(status().isOk());
     }
 
-//    @Test
-//    public void updatePassword() {
-//    }
+    @Test
+    public void updatePassword() {
+        UserEntity entity = UserStub.entityStubModel();
+        given(repository.findByName(entity.getName())).willReturn(Optional.of(entity));
+        mockMvc.perform(patch())
+
+    }
 
     @Test
     public void findUserByCpf() throws Exception {

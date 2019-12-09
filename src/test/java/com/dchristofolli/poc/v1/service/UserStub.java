@@ -12,7 +12,7 @@ public class UserStub {
                 .build();
     }
 
-    public static UserEntity entityStubResponse(){
+    public static UserEntity entityStubModel(){
         return UserEntity.builder()
                 .id("1")
                 .name("stubber")

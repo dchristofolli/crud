@@ -1,6 +1,5 @@
 package com.dchristofolli.poc.v1.exception;
 
-import lombok.Generated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-@Generated
 public class Handler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
