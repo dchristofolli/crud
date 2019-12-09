@@ -56,6 +56,7 @@ public class Controller {
     public List<ResponseModel> showAllUsers() {
         return facade.showAllUsers();
     }
+     //TODO: 09/12/2019 fazer retornar um objeto lista
 
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by CPF")
