@@ -64,14 +64,6 @@ public class ControllerTest {
     }
 
     @Test
-    public void updatePassword() {
-        UserEntity entity = UserStub.entityStubModel();
-        given(repository.findByName(entity.getName())).willReturn(Optional.of(entity));
-        mockMvc.perform(patch())
-
-    }
-
-    @Test
     public void findUserByCpf() throws Exception {
         given(repository.findByCpf("55368778015")).willReturn(Optional.of(UserStub.entityStubRequest()));
         mockMvc.perform(get("/crud/v1/users/cpf/55368778015")).andExpect(status().isOk());
@@ -90,6 +82,23 @@ public class ControllerTest {
                 .willReturn(Optional.of(UserStub.entityStubRequest()));
         mockMvc.perform(get(
                 "/crud/v1/users/query?cpf=55368778015&id=1&name=stubber"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateUsername() throws Exception {
+        UserEntity entity = UserStub.entityStubModel();
+        given(repository.existsByName(entity.getName())).willReturn(true);
+        given(repository.findByName("stubber")).willReturn(Optional.of(UserStub.entityStubModel()));
+        entity.setName("any");
+        given(repository.save(entity)).willReturn(UserEntity.builder()
+                .id("1")
+                .name("any")
+                .cpf("55368778015")
+                .email("stub@teste.com.br")
+                .password("123456")
+                .build());
+        mockMvc.perform(patch("/crud/v1/users/stubber/any"))
                 .andExpect(status().isOk());
     }
 

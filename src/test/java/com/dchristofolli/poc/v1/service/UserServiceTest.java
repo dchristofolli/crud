@@ -38,6 +38,14 @@ public class UserServiceTest {
         service.emptyListValidator();
     }
 
+    @Test
+    public void userExistsByName() {
+    }
+
+    @Test
+    public void updateUsername() {
+    }
+
 //    @Test
 //    void delete() {
 //    }
@@ -60,9 +68,5 @@ public class UserServiceTest {
 //
 //    @Test
 //    void findUserByIdOrCpfOrEmailOrName() {
-//    }
-//
-//    @Test
-//    void userExistsByName() {
 //    }
 }

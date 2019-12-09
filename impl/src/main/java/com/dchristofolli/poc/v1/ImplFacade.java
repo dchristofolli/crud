@@ -40,12 +40,6 @@ public class ImplFacade {
         service.delete(id);
     }
 
-    public UserModel updatePassword(String name, String oldPass, String newPass) {
-        if(!service.passwordIsValid(name, oldPass))
-            throw new ApiException("Invalid credentials", HttpStatus.UNAUTHORIZED);
-        return mapEntityToModel(service.updatePassword(name, newPass));
-    }
-
     public UserModel findUserByCpf(String cpf) {
         return mapEntityToModel(service.findUserByCpf(cpf));
     }
@@ -54,8 +48,13 @@ public class ImplFacade {
         return mapEntityToModel(service.findUserByName(name));
     }
 
-    public UserModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name){
+    public UserModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
         return mapEntityToModel(service.findUserByIdOrCpfOrEmailOrName(id, cpf, email, name));
     }
 
+    public UserModel updateUserName(String oldName, String newName) {
+        if (!service.userExistsByName(oldName.toLowerCase()))
+            throw new ApiException("User does not exists", HttpStatus.NOT_FOUND);
+        return mapEntityToModel(service.updateUsername(oldName, newName));
+    }
 }

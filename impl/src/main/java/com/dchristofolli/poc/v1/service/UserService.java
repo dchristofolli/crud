@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,23 +49,6 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public UserEntity updatePassword(String name, String newPass) {
-        Optional<UserEntity> entity = repository.findByName(name);
-        if (entity.isPresent()) {
-            entity.get().setName(name);
-            entity.get().setPassword(newPass);
-            return repository.save(entity.orElseThrow(() -> new ApiException("Not found", HttpStatus.NOT_FOUND)));
-        }
-        throw new ApiException("User not found", HttpStatus.NOT_FOUND);
-
-    }
-
-    public boolean passwordIsValid(String name, String oldPass) {
-        //todo testar
-        Optional<UserEntity> entity = repository.findByName(name);
-        return entity.isPresent() && entity.get().getPassword().equals(oldPass);
-    }
-
     public UserEntity findUserByCpf(String cpf) {
         return repository.findByCpf(cpf)
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
@@ -81,7 +65,19 @@ public class UserService {
     }
 
     public boolean userExistsByName(String name) {
-        return repository.existsByName(name.toLowerCase());
+        //todo remover
+        System.out.println("USER EXISTS");
+        return repository.existsByName(name);
     }
 
+    public UserEntity updateUsername(String oldName, String newName) {
+        //todo remover
+        System.out.println("ENTRANDO NO UPDATE" + oldName + " " + newName);
+        UserEntity entity = repository.findByName(oldName)
+                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
+        System.out.println("NOT FOUND");
+        entity.setName(newName);
+        System.out.println("FINALIZANDO UPDATE");
+        return repository.save(entity);
+    }
 }

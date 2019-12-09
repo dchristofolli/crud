@@ -58,21 +58,6 @@ public class Controller {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Update user password")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "User updated"),
-            @ApiResponse(code = 401, message = "Invalid credentials"),
-            @ApiResponse(code = 404, message = "Invalid data"),
-            @ApiResponse(code = 500, message = "Bad server")
-    })
-    @PatchMapping("/{name}/password")
-    public ResponseModel updatePassword(@RequestParam String oldPass,
-                                        @Valid @RequestParam String newPass,
-                                        @PathVariable String name) {
-        return facade.updatePassword(name, oldPass, newPass);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by CPF")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
@@ -107,7 +92,7 @@ public class Controller {
     public ResponseModel findByIdOrCpfOrEmailOrName(@RequestParam(required = false) String id,
                                                     @RequestParam(required = false) String cpf,
                                                     @RequestParam(required = false) String email,
-                                                    @RequestParam(required = false) String name){
+                                                    @RequestParam(required = false) String name) {
         return facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name);
     }
 
@@ -120,6 +105,19 @@ public class Controller {
     @DeleteMapping("{id}")
     public void deleteUserById(@PathVariable String id) {
         facade.delete(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Update username")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Username updated"),
+            @ApiResponse(code = 404, message = "User not found"),
+            @ApiResponse(code = 500, message = "Bad server")
+    })
+    @PatchMapping("/{oldName}/{newName}")
+    public ResponseModel updateUsername(@PathVariable String oldName,
+                                        @PathVariable String newName){
+        return facade.updateUsername(oldName, newName);
     }
 }
 

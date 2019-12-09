@@ -34,9 +34,6 @@ public class ContractFacade {
         facade.delete(id);
     }
 
-    public ResponseModel updatePassword(String name, String oldPass, String newPass) {
-        return mapModelToResponse(facade.updatePassword(name, oldPass, newPass));
-    }
 
     public ResponseModel findUserByCpf(String cpf) {
         return mapModelToResponse(facade.findUserByCpf(cpf));
@@ -46,8 +43,11 @@ public class ContractFacade {
         return mapModelToResponse(facade.findUserByName(name));
     }
 
-    public ResponseModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name){
+    public ResponseModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
         return mapModelToResponse(facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name));
     }
 
+    public ResponseModel updateUsername(String oldName, String newName) {
+        return mapModelToResponse(facade.updateUserName(oldName, newName));
+    }
 }
