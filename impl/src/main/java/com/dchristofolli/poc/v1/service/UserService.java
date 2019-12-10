@@ -1,7 +1,6 @@
 package com.dchristofolli.poc.v1.service;
 
 import com.dchristofolli.poc.v1.exception.ApiException;
-import com.dchristofolli.poc.v1.exception.ConflictException;
 import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
@@ -24,38 +23,33 @@ public class UserService {
         return repository.save(mapModelToEntity(user));
     }
 
-    public void registrationChecker(UserModel user) {
-        if (repository.existsByCpfOrEmailOrName(user.getCpf(), user.getEmail(), user.getName()))
-            throw new ConflictException("User already exists in database", HttpStatus.CONFLICT);
-    }
-
     public UserEntity showUserById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ApiException("User not exists", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST));
     }
 
-    public List<UserEntity> showAllUsers() {
+    public List<UserEntity> findAllUsers() {
         return repository.findAll();
     }
 
-    public void emptyListValidator() {
+    public void emptyListChecker() {
         if (repository.findAll().isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
     }
 
     public Optional<UserEntity> delete(String id) {
         Optional<UserEntity> entity = repository.findById(id);
-        repository.delete(entity.orElseThrow(() -> new ApiException("User does not exists", HttpStatus.NOT_FOUND)));
+        repository.delete(entity.orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST)));
         return entity;
     }
 
     public UserEntity findUserByCpf(String cpf) {
         return repository.findByCpf(cpf)
-                .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ApiException("Invalid number", HttpStatus.BAD_REQUEST));
     }
 
     public UserEntity findUserByName(String name) {
         return repository.findByName(name)
-                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 
     public UserEntity findUserByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
@@ -72,5 +66,9 @@ public class UserService {
                 .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
         entity.setName(newName);
         return repository.save(entity);
+    }
+
+    public boolean newNameIsEqualsOldName(String oldName, String newName) {
+        return oldName.equals(newName);
     }
 }

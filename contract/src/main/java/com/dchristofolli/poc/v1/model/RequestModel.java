@@ -17,16 +17,16 @@ import javax.validation.constraints.Size;
 public class RequestModel {
     @ApiModelProperty(notes = "User name", required = true)
     @NotBlank(message = "{requiredField}")
-    @Size(min = 3, max = 16, message = "{nameMinSize}")
+    @Size(min = 3, max = 12, message = "{nameRequiredSize}")
     private String name;
 
     @ApiModelProperty(notes = "User social security number", required = true)
     @NotBlank(message = "{requiredField}")
-    @CPF(message = "{invalidCpf}")
+    @CPF(message = "{invalidSecurityNumber}")
     private String cpf;
 
     @ApiModelProperty(notes = "User e-mail address", required = true)
-    @NotBlank(message = "{emailNotBlank}")
+    @NotBlank(message = "{requiredField}")
     @Email(message = "{invalidEmail}")
     private String email;
 

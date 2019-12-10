@@ -33,7 +33,6 @@ public class Controller {
         return facade.createUser(model);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
@@ -41,11 +40,10 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/id/{id}")
-    public ResponseModel showUserById(@PathVariable(value = "id") String id) {
-        return facade.showUserById(id);
+    public ResponseModel findUserById(@PathVariable(value = "id") String id) {
+        return facade.findUserById(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Displays a list containing the names for all users.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "List displayed successfully"),
@@ -53,12 +51,10 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/")
-    public List<ResponseModel> showAllUsers() {
-        return facade.showAllUsers();
+    public List<ResponseModel> findAllUsers() {
+        return facade.findAllUsers();
     }
-     //TODO: 09/12/2019 fazer retornar um objeto lista
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by CPF")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
@@ -70,19 +66,17 @@ public class Controller {
         return facade.findUserByCpf(cpf);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by name")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @GetMapping("/username/{username}")
-    public ResponseModel findUserByName(@PathVariable String username) {
-        return facade.findUserByName(username);
+    @GetMapping("/username/{name}")
+    public ResponseModel findUserByName(@PathVariable String name) {
+        return facade.findUserByName(name);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Find a user by id, cpf, e-mail address or name")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
@@ -108,7 +102,6 @@ public class Controller {
         return facade.delete(id);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Update username")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Username updated"),
@@ -117,7 +110,7 @@ public class Controller {
     })
     @PatchMapping("/{oldName}/{newName}")
     public ResponseModel updateUsername(@PathVariable String oldName,
-                                        @PathVariable String newName){
+                                        @PathVariable String newName) {
         return facade.updateUsername(oldName, newName);
     }
 }

@@ -20,17 +20,16 @@ public class ImplFacade {
     private UserService service;
 
     public UserModel createUser(UserModel model) {
-        service.registrationChecker(model);
         return mapEntityToModel(service.create(model));
     }
 
-    public UserModel showUserById(String id) {
+    public UserModel findUserById(String id) {
         return mapEntityToModel(service.showUserById(id));
     }
 
-    public List<UserModel> showAllUsers() {
-        service.emptyListValidator();
-        return service.showAllUsers()
+    public List<UserModel> findAllUsers() {
+        service.emptyListChecker();
+        return service.findAllUsers()
                 .stream()
                 .map(ImplMapper::mapEntityToModel)
                 .collect(Collectors.toList());
@@ -38,7 +37,7 @@ public class ImplFacade {
 
     public UserModel delete(String id) {
         return mapEntityToModel(service.delete(id)
-                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND)));
+                .orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST)));
     }
 
     public UserModel findUserByCpf(String cpf) {
@@ -56,6 +55,8 @@ public class ImplFacade {
     public UserModel updateUserName(String oldName, String newName) {
         if (service.userDoesNotExistsByName(oldName.toLowerCase()))
             throw new ApiException("User does not exists", HttpStatus.NOT_FOUND);
+        if (service.newNameIsEqualsOldName(oldName, newName))
+            throw new ApiException("New name must be different from old one", HttpStatus.BAD_REQUEST);
         return mapEntityToModel(service.updateUsername(oldName, newName));
     }
 }

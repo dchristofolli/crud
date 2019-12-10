@@ -25,22 +25,10 @@ public class UserServiceTest {
     @InjectMocks
     UserService service;
 
-    @Test(expected = ConflictException.class)
-    public void registrationChecker() {
-        when(repository.existsByCpfOrEmailOrName("55368778015", "stub@teste.com", "stubber"))
-                .thenReturn(true);
-        service.registrationChecker(UserModel.builder()
-                .name("stubber")
-                .email("stub@teste.com")
-                .cpf("55368778015")
-                .id("1")
-                .build());
-    }
-
     @Test(expected = ApiException.class)
     public void emptyListValidator_return_NotFound() {
         when(repository.findAll()).thenReturn(Collections.emptyList());
-        service.emptyListValidator();
+        service.emptyListChecker();
     }
 
     @Test
@@ -57,5 +45,4 @@ public class UserServiceTest {
         service.delete(entity.getId());
         verify(repository).delete(entity);
     }
-
 }

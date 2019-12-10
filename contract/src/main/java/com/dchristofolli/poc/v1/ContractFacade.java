@@ -20,12 +20,12 @@ public class ContractFacade {
         return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
     }
 
-    public ResponseModel showUserById(String id) {
-        return mapModelToResponse(facade.showUserById(id));
+    public ResponseModel findUserById(String id) {
+        return mapModelToResponse(facade.findUserById(id));
     }
 
-    public List<ResponseModel> showAllUsers() {
-        return facade.showAllUsers().stream()
+    public List<ResponseModel> findAllUsers() {
+        return facade.findAllUsers().stream()
                 .map(ContractMapper::mapModelToResponse)
                 .collect(Collectors.toList());
     }
@@ -33,7 +33,6 @@ public class ContractFacade {
     public ResponseModel delete(String id) {
         return mapModelToResponse(facade.delete(id));
     }
-
 
     public ResponseModel findUserByCpf(String cpf) {
         return mapModelToResponse(facade.findUserByCpf(cpf));
