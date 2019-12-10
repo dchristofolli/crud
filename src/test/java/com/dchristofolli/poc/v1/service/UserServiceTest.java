@@ -1,8 +1,6 @@
 package com.dchristofolli.poc.v1.service;
 
 import com.dchristofolli.poc.v1.exception.ApiException;
-import com.dchristofolli.poc.v1.exception.ConflictException;
-import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
 import org.junit.Assert;
