@@ -1,4 +1,4 @@
-package com.dchristofolli.poc.v1.model;
+package com.dchristofolli.poc.v1.model.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RequestModel {
+public class UserRequest {
     @ApiModelProperty(notes = "User name", required = true)
     @NotBlank(message = "{requiredField}")
     @Size(min = 3, max = 12, message = "{nameRequiredSize}")

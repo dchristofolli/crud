@@ -1,4 +1,4 @@
-package com.dchristofolli.poc.v1.model;
+package com.dchristofolli.poc.v1.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseModel {
+public class UserResponse {
     private String id;
     private String name;
 }

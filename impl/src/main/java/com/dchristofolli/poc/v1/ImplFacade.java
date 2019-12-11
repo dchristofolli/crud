@@ -7,6 +7,7 @@ import com.dchristofolli.poc.v1.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,8 @@ public class ImplFacade {
     }
 
     public List<UserModel> find(String id, String cpf, String email, String name) {
-        if(id.equals("") && cpf.equals("") && email.equals("") && name.equals(""))
+        if (ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
+                ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name))
             return findAllUsers();
         List<UserModel> list = new ArrayList<>();
         list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(id, cpf, email, name)));
