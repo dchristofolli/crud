@@ -41,13 +41,13 @@ public class Handler {
                 .build();
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DuplicateKeyException.class)
     public ErrorModel handleDuplicateKeyException(DuplicateKeyException e) {
         return ErrorModel.builder()
                 .message("Duplicated fields")
                 .error(e.getClass().getName())
-                .status(HttpStatus.CONFLICT)
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
     }
 

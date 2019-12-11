@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,6 @@ public class ImplFacade {
         return mapEntityToModel(service.create(model));
     }
 
-    public UserModel findUserById(String id) {
-        return mapEntityToModel(service.showUserById(id));
-    }
-
     public List<UserModel> findAllUsers() {
         service.emptyListChecker();
         return service.findAllUsers()
@@ -40,16 +37,12 @@ public class ImplFacade {
                 .orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST)));
     }
 
-    public UserModel findUserByCpf(String cpf) {
-        return mapEntityToModel(service.findUserByCpf(cpf));
-    }
-
-    public UserModel findUserByName(String name) {
-        return mapEntityToModel(service.findUserByName(name));
-    }
-
-    public UserModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
-        return mapEntityToModel(service.findUserByIdOrCpfOrEmailOrName(id, cpf, email, name));
+    public List<UserModel> find(String id, String cpf, String email, String name) {
+        if(id.equals("") && cpf.equals("") && email.equals("") && name.equals(""))
+            return findAllUsers();
+        List<UserModel> list = new ArrayList<>();
+        list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(id, cpf, email, name)));
+        return list;
     }
 
     public UserModel updateUserName(String oldName, String newName) {

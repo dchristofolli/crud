@@ -23,6 +23,7 @@ public class RequestModel {
     @ApiModelProperty(notes = "User social security number", required = true)
     @NotBlank(message = "{requiredField}")
     @CPF(message = "{invalidSecurityNumber}")
+    @Size(max = 11, message = "{onlyNumbers}")
     private String cpf;
 
     @ApiModelProperty(notes = "User e-mail address", required = true)

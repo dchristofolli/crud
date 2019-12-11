@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,23 +26,11 @@ public class Controller {
     @ApiResponses({
             @ApiResponse(code = 201, message = "User successfully registered"),
             @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 409, message = "User already exists"),
             @ApiResponse(code = 500, message = "An error occurred on the server")
     })
     @PostMapping
     public ResponseModel createUser(@Valid @RequestBody RequestModel model) {
         return facade.createUser(model);
-    }
-
-    @ApiOperation("Find a user by id")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "User found"),
-            @ApiResponse(code = 404, message = "User not found. Try again"),
-            @ApiResponse(code = 500, message = "Bad server")
-    })
-    @GetMapping("/id/{id}")
-    public ResponseModel findUserById(@PathVariable(value = "id") String id) {
-        return facade.findUserById(id);
     }
 
     @ApiOperation("Displays a list containing the names for all users.")
@@ -55,28 +44,6 @@ public class Controller {
         return facade.findAllUsers();
     }
 
-    @ApiOperation("Find a user by CPF")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "User found"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Bad server")
-    })
-    @GetMapping("/cpf/{cpf}")
-    public ResponseModel findUserByCpf(@PathVariable String cpf) {
-        return facade.findUserByCpf(cpf);
-    }
-
-    @ApiOperation("Find a user by name")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "User found"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Bad server")
-    })
-    @GetMapping("/username/{name}")
-    public ResponseModel findUserByName(@PathVariable String name) {
-        return facade.findUserByName(name);
-    }
-
     @ApiOperation("Find a user by id, cpf, e-mail address or name")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
@@ -84,10 +51,10 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping("/query")
-    public ResponseModel findByIdOrCpfOrEmailOrName(@RequestParam(required = false) String id,
-                                                    @RequestParam(required = false) String cpf,
-                                                    @RequestParam(required = false) String email,
-                                                    @RequestParam(required = false) String name) {
+    public List<ResponseModel> findUser(@RequestParam(required = false) String id,
+                                        @RequestParam(required = false) String cpf,
+                                        @RequestParam(required = false) String email,
+                                        @RequestParam(required = false) String name) {
         return facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name);
     }
 

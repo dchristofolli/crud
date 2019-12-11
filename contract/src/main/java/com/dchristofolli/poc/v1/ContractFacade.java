@@ -20,10 +20,6 @@ public class ContractFacade {
         return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
     }
 
-    public ResponseModel findUserById(String id) {
-        return mapModelToResponse(facade.findUserById(id));
-    }
-
     public List<ResponseModel> findAllUsers() {
         return facade.findAllUsers().stream()
                 .map(ContractMapper::mapModelToResponse)
@@ -34,16 +30,11 @@ public class ContractFacade {
         return mapModelToResponse(facade.delete(id));
     }
 
-    public ResponseModel findUserByCpf(String cpf) {
-        return mapModelToResponse(facade.findUserByCpf(cpf));
-    }
-
-    public ResponseModel findUserByName(String name) {
-        return mapModelToResponse(facade.findUserByName(name));
-    }
-
-    public ResponseModel findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
-        return mapModelToResponse(facade.findByIdOrCpfOrEmailOrName(id, cpf, email, name));
+    public List<ResponseModel> findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
+        return facade.find(id, cpf, email, name)
+                .stream()
+                .map(ContractMapper::mapModelToResponse)
+                .collect(Collectors.toList());
     }
 
     public ResponseModel updateUsername(String oldName, String newName) {

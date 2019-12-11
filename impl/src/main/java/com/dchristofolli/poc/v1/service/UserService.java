@@ -42,17 +42,18 @@ public class UserService {
         return entity;
     }
 
-    public UserEntity findUserByCpf(String cpf) {
+    public UserEntity findByCpf(String cpf) {
         return repository.findByCpf(cpf)
                 .orElseThrow(() -> new ApiException("Invalid number", HttpStatus.BAD_REQUEST));
     }
 
-    public UserEntity findUserByName(String name) {
+    public UserEntity findByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 
-    public UserEntity findUserByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
+    public UserEntity findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
+        //todo tirar o "user" do nome dos métodos
         return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name)
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
