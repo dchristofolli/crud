@@ -26,7 +26,7 @@ public class ImplFacade {
     }
 
     public List<UserModel> findAllUsers() {
-        service.emptyListChecker();
+        service.emptyCollectionChecker();
         return service.findAllUsers()
                 .stream()
                 .map(ImplMapper::mapEntityToModel)
@@ -49,7 +49,7 @@ public class ImplFacade {
 
     public UserModel updateUserName(String oldName, String newName) {
         if (service.userDoesNotExistsByName(oldName.toLowerCase()))
-            throw new ApiException("User does not exists", HttpStatus.NOT_FOUND);
+            throw new ApiException("User not found", HttpStatus.NOT_FOUND);
         if (service.newNameIsEqualsOldName(oldName, newName))
             throw new ApiException("New name must be different from old one", HttpStatus.BAD_REQUEST);
         return mapEntityToModel(service.updateUsername(oldName, newName));

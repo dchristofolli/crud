@@ -10,8 +10,6 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
 
     Optional<UserEntity> findById(String id);
 
-    Optional<UserEntity> findByCpf(String cpf);
-
     Optional<UserEntity> findByName(String name);
 
     Optional<UserEntity> findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name);

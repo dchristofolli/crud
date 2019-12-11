@@ -2,7 +2,6 @@ package com.dchristofolli.poc.v1;
 
 import com.dchristofolli.poc.v1.model.request.UserQueryRequest;
 import com.dchristofolli.poc.v1.model.request.UserRequest;
-import com.dchristofolli.poc.v1.model.response.UserListResponse;
 import com.dchristofolli.poc.v1.model.response.UserResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@Api("Users Crud")
+@Api(value = "Users Crud", tags = "v1")
 @RequestMapping(path = "/crud/v1/users")
 public class Controller {
     private ContractFacade facade;
@@ -34,26 +33,15 @@ public class Controller {
         return facade.createUser(model);
     }
 
-    @ApiOperation("Displays a list containing the names for all users.")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "List displayed successfully"),
-            @ApiResponse(code = 404, message = "Not found"),
-            @ApiResponse(code = 500, message = "Bad server")
-    })
-    @GetMapping("/")
-    public List<UserResponse> findAllUsers() {
-        return facade.findAllUsers();
-    }
-
-    @ApiOperation("Find a user by id, cpf, e-mail address or name")
+    @ApiOperation("Find a user by id, cpf, e-mail address or name. Returns all users if request is empty")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @GetMapping("/query")
+    @GetMapping("/search")
     public List<UserResponse> findUser(@Valid UserQueryRequest userQueryRequest) {
-        return facade.findByIdOrCpfOrEmailOrName(userQueryRequest);
+        return facade.find(userQueryRequest);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -73,10 +61,9 @@ public class Controller {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @PatchMapping("/{oldName}/{newName}")
-    public UserResponse updateUsername(@PathVariable String oldName,
-                                       @PathVariable String newName) {
+    @PatchMapping("/update-username")
+    public UserResponse updateUsername(String oldName,
+                                       String newName) {
         return facade.updateUsername(oldName, newName);
     }
 }
-

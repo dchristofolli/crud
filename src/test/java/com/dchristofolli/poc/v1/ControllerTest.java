@@ -50,38 +50,12 @@ public class ControllerTest {
     }
 
     @Test
-    public void showUserById_Return_Ok() throws Exception {
-        given(repository.findById("1")).willReturn(Optional.of(UserStub.entityStubRequest()));
-        mockMvc.perform(get("/crud/v1/users/id/1")).andExpect(status().isOk());
-    }
-
-    @Test
-    public void showAllUsers_Return_Ok() throws Exception {
-        List<UserEntity> list = new ArrayList<>();
-        list.add(UserStub.entityStubRequest());
-        given(repository.findAll()).willReturn(list);
-        mockMvc.perform(get("/crud/v1/users/")).andExpect(status().isOk());
-    }
-
-    @Test
-    public void findUserByCpf() throws Exception {
-        given(repository.findByCpf("55368778015")).willReturn(Optional.of(UserStub.entityStubRequest()));
-        mockMvc.perform(get("/crud/v1/users/cpf/55368778015")).andExpect(status().isOk());
-    }
-
-    @Test
-    public void findUserByName() throws Exception {
-        given(repository.findByName("stubber")).willReturn(Optional.of(UserStub.entityStubRequest()));
-        mockMvc.perform(get("/crud/v1/users/username/stubber")).andExpect(status().isOk());
-    }
-
-    @Test
     public void findByIdOrCpfOrEmailOrName() throws Exception {
-        given(repository.findByIdOrCpfOrEmailOrName("1", "55368778015",
-                null, "stubber"))
+        given(repository.findByIdOrCpfOrEmailOrName("1", null,
+                null, null))
                 .willReturn(Optional.of(UserStub.entityStubRequest()));
         mockMvc.perform(get(
-                "/crud/v1/users/query?cpf=55368778015&id=1&name=stubber"))
+                "/crud/v1/users/search?id=1"))
                 .andExpect(status().isOk());
     }
 
@@ -98,7 +72,7 @@ public class ControllerTest {
                 .email("stub@teste.com.br")
                 .password("123456")
                 .build());
-        mockMvc.perform(patch("/crud/v1/users/stubber/any"))
+        mockMvc.perform(patch("/crud/v1/users/update-username?newName=any&oldName=stubber"))
                 .andExpect(status().isOk());
     }
 

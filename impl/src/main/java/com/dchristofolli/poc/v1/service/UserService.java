@@ -5,6 +5,7 @@ import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapModelToEntity;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 public class UserService {
     private UserRepository repository;
 
@@ -23,16 +25,11 @@ public class UserService {
         return repository.save(mapModelToEntity(user));
     }
 
-    public UserEntity showUserById(String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST));
-    }
-
     public List<UserEntity> findAllUsers() {
         return repository.findAll();
     }
 
-    public void emptyListChecker() {
+    public void emptyCollectionChecker() {
         if (repository.findAll().isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
     }
 
@@ -42,18 +39,7 @@ public class UserService {
         return entity;
     }
 
-    public UserEntity findByCpf(String cpf) {
-        return repository.findByCpf(cpf)
-                .orElseThrow(() -> new ApiException("Invalid number", HttpStatus.BAD_REQUEST));
-    }
-
-    public UserEntity findByName(String name) {
-        return repository.findByName(name)
-                .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
-    }
-
     public UserEntity findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
-        //todo tirar o "user" do nome dos métodos
         return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name)
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }

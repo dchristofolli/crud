@@ -5,7 +5,6 @@ import com.dchristofolli.poc.v1.model.request.UserRequest;
 import com.dchristofolli.poc.v1.model.response.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,19 +21,11 @@ public class ContractFacade {
         return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
     }
 
-    public List<UserResponse> findAllUsers() {
-        return facade.findAllUsers().stream()
-                .map(ContractMapper::mapModelToResponse)
-                .collect(Collectors.toList());
-    }
-
     public UserResponse delete(String id) {
         return mapModelToResponse(facade.delete(id));
     }
 
-    public List<UserResponse> findByIdOrCpfOrEmailOrName(UserQueryRequest userQueryRequest) {
-        if(ObjectUtils.isEmpty(userQueryRequest))
-            return findAllUsers();
+    public List<UserResponse> find(UserQueryRequest userQueryRequest) {
         return facade.find(userQueryRequest.getId(), userQueryRequest.getCpf(),
                 userQueryRequest.getEmail(), userQueryRequest.getCpf())
                 .stream()
