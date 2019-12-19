@@ -3,6 +3,7 @@ package com.dchristofolli.poc.v1;
 import com.dchristofolli.poc.v1.exception.ApiException;
 import com.dchristofolli.poc.v1.mapper.ImplMapper;
 import com.dchristofolli.poc.v1.model.UserModel;
+import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,12 @@ public class ImplFacade {
 
     public List<UserModel> findAllUsers() {
         service.emptyCollectionChecker();
-        return service.findAllUsers()
-                .stream()
+        List<UserEntity> list = service.findAllUsers();
+        for (UserEntity u : list
+        ) {
+            u.setCpf("***********");
+        }
+        return list.stream()
                 .map(ImplMapper::mapEntityToModel)
                 .collect(Collectors.toList());
     }
@@ -39,10 +44,10 @@ public class ImplFacade {
     }
 
     public List<UserModel> find(String id, String cpf, String email, String name) {
+        List<UserModel> list = new ArrayList<>();
         if (ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
                 ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name))
             return findAllUsers();
-        List<UserModel> list = new ArrayList<>();
         list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(id, cpf, email, name)));
         return list;
     }

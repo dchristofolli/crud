@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
     private String id;
     private String name;
+    private String cpf;
 }
 

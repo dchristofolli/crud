@@ -23,6 +23,7 @@ public class ContractMapper {
         return UserResponse.builder()
                 .id(model.getId())
                 .name(model.getName().toLowerCase())
+                .cpf(model.getCpf())
                 .build();
     }
 }

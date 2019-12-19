@@ -13,6 +13,7 @@ public class ImplMapper {
         return UserModel.builder()
                 .id(entity.getId())
                 .name(entity.getName())
+                .cpf(entity.getCpf())
                 .build();
     }
 
