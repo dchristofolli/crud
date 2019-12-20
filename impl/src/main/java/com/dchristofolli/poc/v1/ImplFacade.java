@@ -31,7 +31,7 @@ public class ImplFacade {
         List<UserEntity> list = service.findAllUsers();
         for (UserEntity u : list
         ) {
-            u.setCpf("***********");
+            u.setCpf(null);
         }
         return list.stream()
                 .map(ImplMapper::mapEntityToModel)

@@ -1,5 +1,11 @@
 version: "3"
 services:
+#  app:
+#    image: dchristofolli/crud-mongo
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - mongo
   mongo:
     image: mongo
     ports:

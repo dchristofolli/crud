@@ -1,16 +1,16 @@
 package com.dchristofolli.poc.v1;
 
+import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.model.request.UserQueryRequest;
 import com.dchristofolli.poc.v1.model.request.UserRequest;
+import com.dchristofolli.poc.v1.model.response.UserListResponse;
 import com.dchristofolli.poc.v1.model.response.UserResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.dchristofolli.poc.v1.ContractMapper.mapModelToResponse;
-import static com.dchristofolli.poc.v1.ContractMapper.mapRequestToModel;
+import static com.dchristofolli.poc.v1.ContractMapper.*;
 
 @AllArgsConstructor
 @Component
@@ -25,12 +25,10 @@ public class ContractFacade {
         return mapModelToResponse(facade.delete(id));
     }
 
-    public List<UserResponse> find(UserQueryRequest userQueryRequest) {
-        return facade.find(userQueryRequest.getId(), userQueryRequest.getCpf(),
-                userQueryRequest.getEmail(), userQueryRequest.getCpf())
-                .stream()
-                .map(ContractMapper::mapModelToResponse)
-                .collect(Collectors.toList());
+    public UserListResponse find(UserQueryRequest userQueryRequest) {
+        List<UserModel> models = facade.find(userQueryRequest.getId(), userQueryRequest.getCpf(),
+                userQueryRequest.getEmail(), userQueryRequest.getCpf());
+        return mapToResponseList(models);
     }
 
     public UserResponse updateUsername(String oldName, String newName) {

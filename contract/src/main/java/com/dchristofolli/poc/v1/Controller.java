@@ -2,6 +2,7 @@ package com.dchristofolli.poc.v1;
 
 import com.dchristofolli.poc.v1.model.request.UserQueryRequest;
 import com.dchristofolli.poc.v1.model.request.UserRequest;
+import com.dchristofolli.poc.v1.model.response.UserListResponse;
 import com.dchristofolli.poc.v1.model.response.UserResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -39,8 +39,8 @@ public class Controller {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @GetMapping("/search")
-    public List<UserResponse> findUser(@Valid UserQueryRequest userQueryRequest) {
+    @GetMapping
+    public UserListResponse findUser(@Valid UserQueryRequest userQueryRequest) {
         return facade.find(userQueryRequest);
     }
 
@@ -61,7 +61,7 @@ public class Controller {
             @ApiResponse(code = 404, message = "User not found"),
             @ApiResponse(code = 500, message = "Bad server")
     })
-    @PatchMapping("/update-username")
+    @PatchMapping("/username")
     public UserResponse updateUsername(String oldName,
                                        String newName) {
         return facade.updateUsername(oldName, newName);
