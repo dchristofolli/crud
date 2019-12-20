@@ -25,16 +25,22 @@ public class ContractMapper {
 
     public static UserResponse mapModelToResponse(UserModel model) {
         return UserResponse.builder()
-                .id(model.getId())
                 .name(model.getName().toLowerCase())
+                .email(model.getEmail())
                 .cpf(model.getCpf())
+                .build();
+    }
+
+    public static UserResponse mapModelToContract(UserModel model){
+        return UserResponse.builder()
+                .id(model.getId())
+                .name(model.getName())
                 .build();
     }
 
     public static UserListResponse mapToResponseList(List<UserModel> userModelList) {
         List<UserResponse> collect = userModelList.stream()
                 .map(userModel -> UserResponse.builder()
-                        .id(userModel.getId())
                         .cpf(userModel.getCpf())
                         .name(userModel.getName())
                         .email(userModel.getEmail())

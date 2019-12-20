@@ -40,7 +40,7 @@ public class Controller {
             @ApiResponse(code = 500, message = "Bad server")
     })
     @GetMapping
-    public UserListResponse findUser(@Valid UserQueryRequest userQueryRequest) {
+    public UserListResponse getUser(@Valid UserQueryRequest userQueryRequest) {
         return facade.find(userQueryRequest);
     }
 

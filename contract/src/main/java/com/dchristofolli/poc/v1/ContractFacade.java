@@ -18,7 +18,7 @@ public class ContractFacade {
     private ImplFacade facade;
 
     public UserResponse createUser(UserRequest requestModel) {
-        return mapModelToResponse(facade.createUser(mapRequestToModel(requestModel)));
+        return mapModelToContract(facade.createUser(mapRequestToModel(requestModel)));
     }
 
     public UserResponse delete(String id) {
