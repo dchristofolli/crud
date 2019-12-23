@@ -17,8 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
@@ -40,41 +38,46 @@ public class ControllerTest {
     @InjectMocks
     private Controller controller;
 
-    @Test
-    public void createUser_Return_Created() throws Exception {
-        given(repository.save(UserStub.entityStubRequest()))
-                .willReturn(UserStub.entityStubModel());
+    @Test(expected = NullPointerException.class)
+    public void createUser_Return_Null() throws Exception {
+        controller.createUser(UserStub.wrongUserRequestStub());
         mockMvc.perform(post("/crud/v1/users").contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(UserStub.entityStubModel())))
                 .andExpect(status().isCreated());
     }
 
-//    @Test
-//    public void findByIdOrCpfOrEmailOrName() throws Exception {
-//        given(repository.findByIdOrCpfOrEmailOrName("1", null,
-//                null, null))
-//                .willReturn(Optional.of(UserStub.entityStubRequest()));
-//        mockMvc.perform(get(
-//                "/crud/v1/users/search?id=1"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void findByIdOrCpfOrEmailOrName() throws Exception {
+        given(repository.findByIdOrCpfOrEmailOrName("1", null,
+                null, null))
+                .willReturn(Optional.of(UserStub.entityStubRequest()));
+        mockMvc.perform(get(
+                "/crud/v1/users?id=1"))
+                .andExpect(status().isOk());
+    }
 
-//    @Test
-//    public void updateUsername() throws Exception {
-//        UserEntity entity = UserStub.entityStubModel();
-//        given(repository.existsByName(entity.getName())).willReturn(true);
-//        given(repository.findByName("stubber")).willReturn(Optional.of(UserStub.entityStubModel()));
-//        entity.setName("any");
-//        given(repository.save(entity)).willReturn(UserEntity.builder()
-//                .id("1")
-//                .name("any")
-//                .cpf("55368778015")
-//                .email("stub@teste.com.br")
-//                .password("123456")
-//                .build());
-//        mockMvc.perform(patch("/crud/v1/users/update-username?newName=any&oldName=stubber"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void findByIdOrCpfOrEmailOrName_listAll() throws Exception {
+        given(repository.findAll()).willReturn(UserStub.entityStubList());
+        mockMvc.perform(get("/crud/v1/users")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateUsername() throws Exception {
+        UserEntity entity = UserStub.entityStubModel();
+        given(repository.existsByName(entity.getName())).willReturn(true);
+        given(repository.findByName("stubber")).willReturn(Optional.of(UserStub.entityStubModel()));
+        entity.setName("any");
+        given(repository.save(entity)).willReturn(UserEntity.builder()
+                .id("1")
+                .name("any")
+                .cpf("55368778015")
+                .email("stub@teste.com.br")
+                .password("123456")
+                .build());
+        mockMvc.perform(patch("/crud/v1/users/username?newName=any&oldName=stubber"))
+                .andExpect(status().isOk());
+    }
 
     @Test
     public void deleteUserById() throws Exception {

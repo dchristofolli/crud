@@ -5,6 +5,7 @@ build/
 !**/src/main/**
 !**/src/test/**
 mongo-data/
+java_pid*
 
 ### STS ###
 .apt_generated
@@ -37,3 +38,5 @@ impl/src/main/resources/
 src/main/resources/static/
 src/main/resources/templates/
 src/test/resources/
+java_pid13905.hprof
+java_pid6525.hprof

@@ -23,10 +23,10 @@ public class UserServiceTest {
     @InjectMocks
     UserService service;
 
-    @Test(expected = ApiException.class)
-    public void emptyCollectionChecker_return_NotFound() {
+    @Test
+    public void repositoryIsEmpty_Ok() {
         when(repository.findAll()).thenReturn(Collections.emptyList());
-        service.emptyCollectionChecker();
+        Assert.assertTrue(service.repositoryIsEmpty());
     }
 
     @Test
@@ -44,10 +44,16 @@ public class UserServiceTest {
         verify(repository).delete(entity);
     }
 
-//    @Test
-//    public void findAllUsers() {
-//        when(repository.findAll()).thenReturn(any());
-//        service.findAllUsers();
-//        verify(repository).findAll();
-//    }
+    @Test
+    public void findAllUsers() {
+        when(repository.findAll()).thenReturn(UserStub.entityStubList());
+        service.findAllUsers();
+        verify(repository).findAll();
+    }
+
+    @Test
+    public void userArgumentsIsEmpty() {
+        service.userArgumentsIsEmpty(null, null, null, null);
+        Assert.assertTrue(service.userArgumentsIsEmpty(null, null, null, null));
+    }
 }

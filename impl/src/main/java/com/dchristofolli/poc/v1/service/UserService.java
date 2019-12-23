@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +30,8 @@ public class UserService {
         return repository.findAll();
     }
 
-    public void emptyCollectionChecker() {
-        if (repository.findAll().isEmpty()) throw new ApiException("No users found", HttpStatus.NOT_FOUND);
+    public boolean repositoryIsEmpty() {
+        return repository.findAll().isEmpty();
     }
 
     public Optional<UserEntity> delete(String id) {
@@ -57,5 +58,10 @@ public class UserService {
 
     public boolean newNameIsEqualsOldName(String oldName, String newName) {
         return oldName.equals(newName);
+    }
+
+    public boolean userArgumentsIsEmpty(String id, String cpf, String email, String name) {
+        return ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
+                ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name);
     }
 }

@@ -8,7 +8,6 @@ import com.dchristofolli.poc.v1.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +26,10 @@ public class ImplFacade {
     }
 
     public List<UserModel> findAllUsers() {
-        service.emptyCollectionChecker();
+        if (service.repositoryIsEmpty())
+            throw new ApiException("No users found", HttpStatus.NOT_FOUND);
         List<UserEntity> list = service.findAllUsers();
-        for (UserEntity u : list
-        ) {
-            u.setCpf(null);
-        }
+        list.forEach(userEntity -> userEntity.setCpf(null));
         return list.stream()
                 .map(ImplMapper::mapEntityToModel)
                 .collect(Collectors.toList());
@@ -45,8 +42,7 @@ public class ImplFacade {
 
     public List<UserModel> find(String id, String cpf, String email, String name) {
         List<UserModel> list = new ArrayList<>();
-        if (ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
-                ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name))
+        if (service.userArgumentsIsEmpty(id, cpf, email, name))
             return findAllUsers();
         list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(id, cpf, email, name)));
         return list;

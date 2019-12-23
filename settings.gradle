@@ -1,4 +1,4 @@
-rootProject.name = 'poc'
+rootProject.name = 'crud'
 include 'contract'
 include 'impl'
 
