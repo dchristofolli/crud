@@ -1,23 +1,13 @@
 version: "3"
 services:
-  app:
-    image: dchristofolli/crud
+  postgres:
+    image: postgres
     ports:
-      - 8080:8080
+      - 5432:5432
+    restart: always
     environment:
-      - MONGO_URL=mongodb://localhost/db_crud
-      - ROOT_URL=http://localhost:8080
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo
-    ports:
-      - 27017:27017
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: crud_postgres
     volumes:
-      - ./mongo-data:/data/db
-  mongo-express:
-    image: mongo-express
-    ports:
-      - 8081:8081
-    depends_on:
-      - mongo
+      - ./postgres-data:/var/lib/postgresql/data
