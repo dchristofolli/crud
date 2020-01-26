@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public UserEntity findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
-        return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name)
+        return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name.toLowerCase())
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 

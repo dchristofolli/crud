@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @lombok.Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(indexes = {@Index(name = "IDX", columnList = "id, name, cpf, email")})
 @Entity(name = "Users")
 public class UserEntity {
     @Id
@@ -30,6 +28,6 @@ public class UserEntity {
     @Column(columnDefinition = "text", unique = true)
     private String email;
 
-    @Column(columnDefinition = "text", unique = true)
+    @Column(columnDefinition = "text")
     private String password;
 }
