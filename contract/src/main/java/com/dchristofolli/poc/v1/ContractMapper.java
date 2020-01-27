@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1;
 
 import com.dchristofolli.poc.v1.model.UserModel;
+import com.dchristofolli.poc.v1.model.request.UserQueryRequest;
 import com.dchristofolli.poc.v1.model.request.UserRequest;
 import com.dchristofolli.poc.v1.model.response.UserListResponse;
 import com.dchristofolli.poc.v1.model.response.UserResponse;
@@ -35,6 +36,15 @@ public class ContractMapper {
         return UserResponse.builder()
                 .id(model.getId())
                 .name(model.getName())
+                .build();
+    }
+
+    public static UserModel mapQueryRequestToModel(UserQueryRequest user){
+        return UserModel.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .cpf(user.getCpf())
                 .build();
     }
 

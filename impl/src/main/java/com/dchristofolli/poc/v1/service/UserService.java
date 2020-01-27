@@ -40,8 +40,9 @@ public class UserService {
         return entity;
     }
 
-    public UserEntity findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
-        return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name.toLowerCase())
+    public UserEntity findByIdOrCpfOrEmailOrName(UserEntity entity) {
+        return repository.findByIdOrCpfOrEmailOrName(entity.getId(), entity.getCpf(),
+                entity.getEmail(), entity.getName().toLowerCase())
                 .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 
@@ -60,8 +61,8 @@ public class UserService {
         return oldName.equals(newName);
     }
 
-    public boolean userArgumentsIsEmpty(String id, String cpf, String email, String name) {
-        return ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
-                ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name);
+    public boolean userArgumentsIsEmpty(UserModel model) {
+        return ObjectUtils.isEmpty(model.getId()) && ObjectUtils.isEmpty(model.getCpf()) &&
+                ObjectUtils.isEmpty(model.getEmail()) && ObjectUtils.isEmpty(model.getName());
     }
 }

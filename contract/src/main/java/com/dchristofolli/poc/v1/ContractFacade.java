@@ -26,8 +26,7 @@ public class ContractFacade {
     }
 
     public UserListResponse find(UserQueryRequest userQueryRequest) {
-        List<UserModel> models = facade.find(userQueryRequest.getId(), userQueryRequest.getCpf(),
-                userQueryRequest.getEmail(), userQueryRequest.getCpf());
+        List<UserModel> models = facade.find(mapQueryRequestToModel(userQueryRequest));
         return mapToResponseList(models);
     }
 

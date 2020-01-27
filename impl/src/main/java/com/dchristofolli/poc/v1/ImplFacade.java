@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapEntityToModel;
+import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapModelToEntity;
 
 
 @AllArgsConstructor
@@ -40,11 +41,11 @@ public class ImplFacade {
                 .orElseThrow(() -> new ApiException("Invalid id", HttpStatus.BAD_REQUEST)));
     }
 
-    public List<UserModel> find(String id, String cpf, String email, String name) {
+    public List<UserModel> find(UserModel userModel) {
         List<UserModel> list = new ArrayList<>();
-        if (service.userArgumentsIsEmpty(id, cpf, email, name))
+        if (service.userArgumentsIsEmpty(userModel))
             return findAllUsers();
-        list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(id, cpf, email, name)));
+        list.add(mapEntityToModel(service.findByIdOrCpfOrEmailOrName(mapModelToEntity(userModel))));
         return list;
     }
 
