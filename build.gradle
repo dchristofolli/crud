@@ -9,7 +9,7 @@ sonarqube {
         property "sonar.projectKey", "dchristofolli_crud"
         property "sonar.organization", "dchristofolli"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.login", "fac1deeab2977216dda378adad1e236a22274cc7"
+        property "sonar.login", "2c650dee6258dec863d680a10da518e29f449f87"
     }
 }
 
