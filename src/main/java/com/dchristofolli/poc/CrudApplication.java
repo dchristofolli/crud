@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @Generated
-public class PocApplication {
+public class CrudApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PocApplication.class, args);
+        SpringApplication.run(CrudApplication.class, args);
     }
 
 }
