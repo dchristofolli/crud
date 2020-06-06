@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class UserListResponse {
-    List<UserResponse> list;
-    Integer quantity;
+    private List<UserResponse> list;
+    private Integer quantity;
 }
