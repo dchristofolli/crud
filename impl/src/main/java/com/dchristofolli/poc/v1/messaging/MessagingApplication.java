@@ -1,15 +1,11 @@
-package com.dchristofolli.poc;
+package com.dchristofolli.poc.v1.messaging;
 
-import lombok.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@Generated
-public class CrudApplication {
-
+public class MessagingApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CrudApplication.class, args);
+        SpringApplication.run(MessagingApplication.class, args).close();
     }
-
 }
