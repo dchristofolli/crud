@@ -19,7 +19,7 @@ import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapEntityToModel;
 @AllArgsConstructor
 @Component
 public class ImplFacade {
-    private UserService service;
+    private final UserService service;
 
     public UserModel createUser(UserModel model) {
         return mapEntityToModel(service.create(model));

@@ -1,6 +1,7 @@
 package com.dchristofolli.poc.v1.service;
 
 import com.dchristofolli.poc.v1.exception.ApiException;
+import com.dchristofolli.poc.v1.messaging.Sender;
 import com.dchristofolli.poc.v1.model.UserModel;
 import com.dchristofolli.poc.v1.repository.UserEntity;
 import com.dchristofolli.poc.v1.repository.UserRepository;
@@ -20,10 +21,11 @@ import static com.dchristofolli.poc.v1.mapper.ImplMapper.mapModelToEntity;
 @Service
 @Slf4j
 public class UserService {
-    private UserRepository repository;
+    private final UserRepository repository;
+    private final Sender sender;
 
     public UserEntity create(UserModel user) {
-        return repository.save(mapModelToEntity(user));
+        return sender.send(repository.save(mapModelToEntity(user)));
     }
 
     public List<UserEntity> findAllUsers() {
@@ -42,7 +44,7 @@ public class UserService {
 
     public UserEntity findByIdOrCpfOrEmailOrName(String id, String cpf, String email, String name) {
         return repository.findByIdOrCpfOrEmailOrName(id, cpf, email, name)
-                .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ApiException("Bad request", HttpStatus.BAD_REQUEST));
     }
 
     public boolean userDoesNotExistsByName(String name) {
@@ -51,7 +53,7 @@ public class UserService {
 
     public UserEntity updateUsername(String oldName, String newName) {
         UserEntity entity = repository.findByName(oldName)
-                .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
+            .orElseThrow(() -> new ApiException("User not found", HttpStatus.NOT_FOUND));
         entity.setName(newName);
         return repository.save(entity);
     }
@@ -62,6 +64,6 @@ public class UserService {
 
     public boolean userArgumentsIsEmpty(String id, String cpf, String email, String name) {
         return ObjectUtils.isEmpty(id) && ObjectUtils.isEmpty(cpf) &&
-                ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name);
+            ObjectUtils.isEmpty(email) && ObjectUtils.isEmpty(name);
     }
 }
