@@ -45,8 +45,8 @@ public class Handler {
     @ExceptionHandler(DuplicateKeyException.class)
     public ErrorModel handleDuplicateKeyException(DuplicateKeyException e) {
         return ErrorModel.builder()
-                .message("Duplicated fields")
-                .error(e.getClass().getName())
+                .message(e.getMessage())
+                .error(e.getClass().getSimpleName())
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
     }

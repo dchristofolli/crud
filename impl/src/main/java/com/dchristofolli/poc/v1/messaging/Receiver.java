@@ -8,15 +8,15 @@ import java.util.concurrent.CountDownLatch;
 @Component
 @Slf4j
 public class Receiver {
-  private final CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
 
-  public void receiveMessage(String message) {
-    log.info("Received <{}>", message);
-    latch.countDown();
-  }
+    public void receiveMessage(String message) {
+        log.info("Received <{}>", message);
+        latch.countDown();
+    }
 
-  public CountDownLatch getLatch() {
-    return latch;
-  }
+    public CountDownLatch getLatch() {
+        return latch;
+    }
 
 }

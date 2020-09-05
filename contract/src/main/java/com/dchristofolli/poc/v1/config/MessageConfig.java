@@ -15,4 +15,9 @@ public class MessageConfig {
         validatorFactoryBean.setValidationMessageSource(messageSource);
         return validatorFactoryBean;
     }
+
+    @Bean
+    public String string(){
+        return "";
+    }
 }

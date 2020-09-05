@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document(collection = "Users")
 public class UserEntity {
+    private static final long serialVersionUID = 7216203701057878501L;
     @Id
     private String id;
 

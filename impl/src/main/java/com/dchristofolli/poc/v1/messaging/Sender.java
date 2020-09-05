@@ -24,12 +24,10 @@ public class Sender {
 
     private final Gson gson;
 
-
     public UserEntity send(UserEntity entity) {
-        log.info("Sending message...");
         rabbitTemplate.convertAndSend(
             exchangeName,
-            routingKey + entity.getId(),
+            routingKey,
             gson.toJson(entity));
         try {
             receiver.getLatch().await(10, TimeUnit.SECONDS);
