@@ -30,9 +30,4 @@ public class UserRequest {
     @NotBlank(message = "{requiredField}")
     @Email(message = "{invalidEmail}")
     private String email;
-
-    @ApiModelProperty(notes = "User account password", required = true)
-    @NotBlank(message = "{requiredField}")
-    @Size(min = 4, max = 12, message = "{invalidPass}")
-    private String password;
 }

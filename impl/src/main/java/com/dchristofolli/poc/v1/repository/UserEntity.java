@@ -25,6 +25,4 @@ public class UserEntity {
 
     @Indexed(unique = true)
     private String email;
-
-    private String password;
 }

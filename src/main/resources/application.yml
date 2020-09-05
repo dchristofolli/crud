@@ -6,6 +6,7 @@ spring:
       uri: mongodb://localhost:27017/db_crud
       auto-index-creation: false
 rabbitmq:
-  queueName: spring-boot
+  genericQueueName: spring-boot
+  specificQueueName: specific
   exchangeName: spring-boot-exchange
   routingKey: foo.bar.#

@@ -24,7 +24,6 @@ public class ImplMapper {
                 .name(model.getName())
                 .cpf(model.getCpf())
                 .email(model.getEmail())
-                .password(model.getPassword())
                 .build();
     }
 }

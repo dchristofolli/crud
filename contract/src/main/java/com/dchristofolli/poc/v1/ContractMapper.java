@@ -19,7 +19,6 @@ public class ContractMapper {
                 .name(model.getName().toLowerCase())
                 .email(model.getEmail())
                 .cpf(model.getCpf())
-                .password(model.getPassword())
                 .build();
     }
 

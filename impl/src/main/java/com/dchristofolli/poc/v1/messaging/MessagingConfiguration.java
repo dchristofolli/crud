@@ -5,54 +5,60 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class MessagingConfiguration {
     @Value("${rabbitmq.exchangeName}")
     private String exchangeName;
 
-    @Value("${rabbitmq.queueName}")
-    private String queueName;
+    @Value("${rabbitmq.genericQueueName}")
+    private String genericQueueName;
+
+    @Value("${rabbitmq.specificQueueName}")
+    private String specificQueueName;
 
     @Value("${rabbitmq.routingKey}")
     private String routingKey;
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
-    }
-
-    @Bean
-    TopicExchange exchange() {
+    public TopicExchange appExchange() {
         return new TopicExchange(exchangeName);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    public Queue appQueueGeneric() {
+        return new Queue(genericQueueName);
     }
 
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
-        container.setMessageListener(listenerAdapter);
-        return container;
+    public Queue appQueueSpecific() {
+        return new Queue(specificQueueName);
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+    public Binding declareBindingGeneric() {
+        return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(routingKey);
     }
 
     @Bean
-    public String string(){
-        return "";
+    public Binding declareBindingSpecific() {
+        return BindingBuilder.bind(appQueueSpecific()).to(appExchange()).with(routingKey);
     }
 
+    @Bean
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
+        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
 }
