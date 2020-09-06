@@ -26,7 +26,6 @@ public class UserService {
 
     public UserEntity create(UserModel user) {
         return sender.send(mapModelToEntity(user));
-//        return sender.send(repository.save(mapModelToEntity(user)));
     }
 
     public List<UserEntity> findAllUsers() {

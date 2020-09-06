@@ -1,22 +1,17 @@
 package com.dchristofolli.poc.v1.messaging;
 
+import com.dchristofolli.poc.v1.repository.UserEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.CountDownLatch;
 
 @Component
 @Slf4j
 public class Receiver {
-    private final CountDownLatch latch = new CountDownLatch(1);
-
-    public void receiveMessage(String message) {
-        log.info("Received <{}>", message);
-        latch.countDown();
+    @RabbitListener(queues = "${rabbitmq.responseQueueName}")
+    @SendTo("${rabbitmq.responseQueueName}")
+    public void receiveMessage(final UserEntity userEntity) {
+        log.info("Received callback message: {}", userEntity);
     }
-
-    public CountDownLatch getLatch() {
-        return latch;
-    }
-
 }

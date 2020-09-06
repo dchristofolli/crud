@@ -1,5 +1,6 @@
 package com.dchristofolli.poc.v1.repository;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -13,16 +14,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @Document(collection = "Users")
 public class UserEntity {
-    private static final long serialVersionUID = 7216203701057878501L;
     @Id
+    @JsonProperty("id")
     private String id;
 
     @Indexed(unique = true)
+    @JsonProperty("name")
     private String name;
 
     @Indexed(unique = true)
+    @JsonProperty("cpf")
     private String cpf;
 
     @Indexed(unique = true)
+    @JsonProperty("email")
     private String email;
 }

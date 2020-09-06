@@ -16,11 +16,11 @@ public class MessagingConfiguration {
     @Value("${rabbitmq.exchangeName}")
     private String exchangeName;
 
-    @Value("${rabbitmq.genericQueueName}")
-    private String genericQueueName;
-
     @Value("${rabbitmq.specificQueueName}")
     private String specificQueueName;
+
+    @Value("${rabbitmq.responseQueueName}")
+    private String responseQueueName;
 
     @Value("${rabbitmq.routingKey}")
     private String routingKey;
@@ -31,23 +31,23 @@ public class MessagingConfiguration {
     }
 
     @Bean
-    public Queue appQueueGeneric() {
-        return new Queue(genericQueueName);
-    }
-
-    @Bean
     public Queue appQueueSpecific() {
         return new Queue(specificQueueName);
     }
 
     @Bean
-    public Binding declareBindingGeneric() {
-        return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(routingKey);
+    public Queue responseQueue(){
+        return new Queue(responseQueueName);
     }
 
     @Bean
     public Binding declareBindingSpecific() {
         return BindingBuilder.bind(appQueueSpecific()).to(appExchange()).with(routingKey);
+    }
+
+    @Bean
+    public Binding declareBindingResponse() {
+        return BindingBuilder.bind(responseQueue()).to(appExchange()).with(routingKey);
     }
 
     @Bean
