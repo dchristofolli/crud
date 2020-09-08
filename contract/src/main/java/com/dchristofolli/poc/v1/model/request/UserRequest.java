@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class UserRequest {
     @ApiModelProperty(notes = "User name", required = true)
     @NotBlank(message = "{requiredField}")
-    @Size(min = 3, max = 12, message = "{nameRequiredSize}")
+    @Size(min = 3, max = 32, message = "{nameRequiredSize}")
     private String name;
 
     @ApiModelProperty(notes = "User social security number", required = true)
