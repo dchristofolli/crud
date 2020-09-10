@@ -9,4 +9,6 @@ rabbitmq:
   specificQueueName: specific
   responseQueueName: response
   exchangeName: spring-boot-exchange
+  listAllExchange: all-users-exchange
   routingKey: foo.bar.#
+  findAllRoutingKey: app.users
